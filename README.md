@@ -28,6 +28,22 @@ cd path-to-your-project
 cp ./vendor/wearesho-team/yii-token-registration/migrations ./console/migrations
 ``` 
  
+### Configuration
+```php
+<?php
+use Wearesho\Yii\Configs\TokenRepositorySettings;
+
+// You may load config from anywhere
+$config = [
+    'TokenRepository' => [
+        'expirePeriod' => 20, // in minutes
+        'deliveryLimit' => 4,
+        'verifyLimit' => 3,
+    ],
+];
+$settings = TokenRepositorySettings::instantiate($config);
+```
+ 
 ### TODO
 1. Documentation
 2. Tests for exceptions
