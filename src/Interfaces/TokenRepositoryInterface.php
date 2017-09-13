@@ -22,6 +22,18 @@ interface TokenRepositoryInterface
     public function push(RegistrationEntityInterface $entity): TokenInterface;
 
     /**
+     * Creating and sending token
+     *
+     * @param RegistrationEntityInterface $entity
+     * @param TokenSendServiceInterface $sender
+     *
+     * @throws DeliveryLimitReachedException
+     *
+     * @return bool
+     */
+    public function send(RegistrationEntityInterface $entity, TokenSendServiceInterface $sender): bool;
+
+    /**
      * Pulling active token to process it (for example, sending sms)
      * Will increase sending counter
      *

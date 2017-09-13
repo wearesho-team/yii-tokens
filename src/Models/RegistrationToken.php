@@ -65,7 +65,7 @@ class RegistrationToken extends ActiveRecord implements TokenRecordInterface
             [['token', 'recipient',], 'safe'],
             [['verify_count', 'delivery_count'], 'integer', 'min' => 0,],
             ['verify_count', 'default', 'value' => 0,],
-            ['delivery_count', 'default', 'value' => 1,],
+            ['delivery_count', 'default', 'value' => 0,],
             ['data', JsonValidator::class,]
         ];
     }
@@ -109,7 +109,7 @@ class RegistrationToken extends ActiveRecord implements TokenRecordInterface
      */
     public function getDeliveryCount(): int
     {
-        return $this->delivery_count ?? 1;
+        return $this->delivery_count ?? 0;
     }
 
     /**
@@ -166,10 +166,6 @@ class RegistrationToken extends ActiveRecord implements TokenRecordInterface
      */
     public function increaseDeliveryCount(): TokenRecordInterface
     {
-        if (!$this->delivery_count) {
-            $this->delivery_count = 1;
-        }
-
         $this->delivery_count++;
         return $this;
     }

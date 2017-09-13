@@ -81,13 +81,13 @@ class RegistrationTokenTest extends AbstractTestCase
     public function testDeliveryCount()
     {
         $this->assertEquals(
-            1,
+            0,
             $this->model->getDeliveryCount(),
-            "Delivery count should 1 by default"
+            "Delivery count should be 0 by default"
         );
         $this->model->increaseDeliveryCount();
         $this->assertEquals(
-            2,
+            1,
             $this->model->getDeliveryCount()
         );
     }
@@ -97,7 +97,7 @@ class RegistrationTokenTest extends AbstractTestCase
         $this->assertEquals(
             0,
             $this->model->getVerifyCount(),
-            "Verify count should by 0 by default"
+            "Verify count should be 0 by default"
         );
         $this->model->increaseVerifyCount();
         $this->assertEquals(

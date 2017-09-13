@@ -16,6 +16,7 @@ use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Mocks\RegistrationEntityMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositorySettingsMock;
+use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 
 /**
  * Class TokenRepositoryTest
@@ -80,6 +81,10 @@ class TokenRepositoryTest extends AbstractTestCase
         $this->generator->setExceptedToken("567890");
 
         $firstToken = $this->repository->push($entity);
+        $this->assertEquals(
+            0,
+            $firstToken->getDeliveryCount()
+        );
 
         $this->generator->setExceptedToken("111111");
         $secondToken = $this->repository->push($entity);
@@ -97,7 +102,7 @@ class TokenRepositoryTest extends AbstractTestCase
             $secondToken->getRecipient()
         );
         $this->assertEquals(
-            $firstToken->getDeliveryCount() + 1,
+            $firstToken->getDeliveryCount(),
             $secondToken->getDeliveryCount()
         );
     }
@@ -125,7 +130,7 @@ class TokenRepositoryTest extends AbstractTestCase
         );
         $this->assertEquals(
             $token->getDeliveryCount(),
-            2
+            0
         );
         $this->assertEquals(
             $token->getRecipient(),
@@ -135,9 +140,6 @@ class TokenRepositoryTest extends AbstractTestCase
             $token->getData(),
             $tokenData
         );
-
-        $this->expectException(DeliveryLimitReachedException::class);
-        $this->repository->pull($tokenRecipient);
     }
 
     public function testVerifyMissingRecipient()
@@ -178,5 +180,21 @@ class TokenRepositoryTest extends AbstractTestCase
             $token->getVerifyCount() + 1,
             $verifiedToken->getVerifyCount()
         );
+    }
+
+    public function testSending()
+    {
+        $entity = new RegistrationEntityMock();
+        $entity->setTokenData([mt_rand()]);
+        $entity->setTokenRecipient(mt_rand());
+
+        $sendService = new TokenSendServiceMock();
+
+        for ($i = 0; $i < $this->settings->getDeliveryLimit(); $i++) {
+            $this->repository->send($entity, $sendService);
+        }
+
+        $this->expectException(DeliveryLimitReachedException::class);
+        $this->repository->send($entity, $sendService);
     }
 }

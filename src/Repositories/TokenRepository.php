@@ -16,6 +16,7 @@ use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Interfaces\TokenRepositorySettingsInterface;
 
+use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
 use Wearesho\Yii\Models\RegistrationToken;
 use Wearesho\Yii\Services\TokenGenerator;
 
@@ -55,7 +56,7 @@ class TokenRepository implements TokenRepositoryInterface
      * Creating token (for example, when we receive first-stage data)
      *
      * @param RegistrationEntityInterface $entity
-     * @return TokenInterface
+     * @return TokenInterface|TokenRecordInterface
      */
     public function push(RegistrationEntityInterface $entity): TokenInterface
     {
@@ -76,6 +77,36 @@ class TokenRepository implements TokenRepositoryInterface
     }
 
     /**
+     * Creating and sending token
+     * Internal should use push() method
+     *
+     * @todo: preventing two write operations (update+update, insert+update)
+     *
+     * @param RegistrationEntityInterface $entity
+     * @param TokenSendServiceInterface $sender
+     * @throws DeliveryLimitReachedException
+     * @return bool
+     */
+    public function send(RegistrationEntityInterface $entity, TokenSendServiceInterface $sender): bool
+    {
+        $token = $this->push($entity);
+        if ($token->getDeliveryCount() >= $this->settings->getDeliveryLimit()) {
+            throw new DeliveryLimitReachedException(
+                $token->getDeliveryCount(),
+                $this->settings->getExpirePeriod()
+            );
+        }
+        $delivered = $sender->send($token);
+
+        if ($token instanceof TokenRecordInterface && $delivered) {
+            $token->increaseDeliveryCount();
+            ValidationException::saveOrThrow($token);
+        }
+
+        return $delivered;
+    }
+
+    /**
      * Pulling active token to process it (for example, sending sms)
      *
      * @param string $tokenRecipient
@@ -84,23 +115,10 @@ class TokenRepository implements TokenRepositoryInterface
      */
     public function pull(string $tokenRecipient)
     {
-        $record = $this->model->find()
+        return $this->model->find()
             ->notExpired($this->settings->getExpirePeriod())
             ->whereRecipient($tokenRecipient)
             ->one();
-
-        if ($record instanceof TokenRecordInterface) {
-            $record->increaseDeliveryCount();
-            if ($record->getDeliveryCount() > $this->settings->getDeliveryLimit()) {
-                throw new DeliveryLimitReachedException(
-                    $this->settings->getDeliveryLimit(),
-                    $this->settings->getExpirePeriod()
-                );
-            }
-            ValidationException::saveOrThrow($record);
-        }
-
-        return $record;
     }
 
     /**
@@ -134,4 +152,5 @@ class TokenRepository implements TokenRepositoryInterface
 
         return $record;
     }
+
 }
