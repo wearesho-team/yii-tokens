@@ -4,6 +4,7 @@
 namespace Wearesho\Yii\Tests\Services;
 
 use PHPUnit\Framework\TestCase;
+
 use Wearesho\Yii\Services\TokenGenerator;
 
 class TokenGeneratorTest extends TestCase

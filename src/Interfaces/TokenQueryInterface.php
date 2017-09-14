@@ -4,6 +4,7 @@
 namespace Wearesho\Yii\Interfaces;
 
 use Carbon\CarbonInterval;
+
 use yii\db\ActiveQueryInterface;
 
 /**

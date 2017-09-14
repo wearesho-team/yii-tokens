@@ -3,9 +3,10 @@
 namespace Wearesho\Yii\Tests\Validators;
 
 use Carbon\CarbonInterval;
-use Wearesho\Yii\Configs\TokenRepositoryConfig;
+
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
+
 use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Fixtures\RegistrationTokenFixture;
 use Wearesho\Yii\Tests\Mocks\TokenCheckModelMock;

@@ -5,9 +5,11 @@ namespace Wearesho\Yii\Configs;
 
 
 use Carbon\CarbonInterval;
+
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
+
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 /**
@@ -29,9 +31,6 @@ class TokenRepositoryConfig implements TokenRepositoryConfigInterface, Configura
 
     /**
      * TokenRepositorySettings constructor.
-     * @param CarbonInterval $expirePeriod
-     * @param int $verifyLimit
-     * @param int $deliveryLimit
      */
     private function __construct()
     {

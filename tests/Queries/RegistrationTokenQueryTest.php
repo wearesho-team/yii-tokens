@@ -6,8 +6,10 @@ namespace Wearesho\Yii\Tests\Queries;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+
 use Wearesho\Yii\Models\RegistrationToken;
 use Wearesho\Yii\Queries\RegistrationTokenQuery;
+
 use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Fixtures\RegistrationTokenFixture;
 

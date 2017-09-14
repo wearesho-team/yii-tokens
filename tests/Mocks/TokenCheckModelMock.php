@@ -5,6 +5,7 @@ namespace Wearesho\Yii\Tests\Mocks;
 
 
 use Wearesho\Yii\Validators\TokenValidator;
+
 use yii\base\Model;
 
 /**

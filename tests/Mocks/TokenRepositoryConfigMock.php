@@ -4,6 +4,7 @@
 namespace Wearesho\Yii\Tests\Mocks;
 
 use Carbon\CarbonInterval;
+
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 /**

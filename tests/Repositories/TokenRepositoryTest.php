@@ -8,10 +8,12 @@ use Carbon\CarbonInterval;
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
+
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
+
 use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Mocks\RegistrationEntityMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;

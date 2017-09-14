@@ -6,7 +6,6 @@ namespace Wearesho\Yii\Exceptions;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Throwable;
 
 /**
  * Class DeliveryLimitReachedException
@@ -20,7 +19,14 @@ class DeliveryLimitReachedException extends RegistrationException
     /** @var  int */
     protected $attempts;
 
-    public function __construct(int $attempts, CarbonInterval $timeout, $code = 0, Throwable $previous = null)
+    /**
+     * DeliveryLimitReachedException constructor.
+     * @param int $attempts
+     * @param CarbonInterval $timeout
+     * @param int $code
+     * @param \Throwable|null $previous
+     */
+    public function __construct(int $attempts, CarbonInterval $timeout, $code = 0, \Throwable $previous = null)
     {
         $message = "Delivery limit of {$attempts} reached. Try after "
             . Carbon::now()->add($timeout)->toDateTimeString();

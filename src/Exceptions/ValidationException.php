@@ -4,9 +4,7 @@
 namespace Wearesho\Yii\Exceptions;
 
 
-use Throwable;
 use yii\base\Model;
-use yii\db\ActiveRecord;
 use yii\db\ActiveRecordInterface;
 
 /**
@@ -22,9 +20,9 @@ class ValidationException extends RegistrationException
      * ValidationException constructor.
      * @param Model $model
      * @param int $code
-     * @param Throwable|null $previous
+     * @param \Throwable|null $previous
      */
-    public function __construct(Model $model, $code = 0, Throwable $previous = null)
+    public function __construct(Model $model, $code = 0, \Throwable $previous = null)
     {
         $message = "Error validating " . get_class($model);
         parent::__construct($message, $code, $previous);

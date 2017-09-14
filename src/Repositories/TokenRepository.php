@@ -30,26 +30,26 @@ class TokenRepository implements TokenRepositoryInterface
     protected $model;
 
     /** @var  TokenRepositoryConfigInterface */
-    protected $settings;
+    protected $config;
 
     /** @var TokenGeneratorInterface */
     protected $generator;
 
     /**
      * TokensRepository constructor.
-     * @param TokenRepositoryConfigInterface $settings
+     * @param TokenRepositoryConfigInterface $config
      * @param TokenGeneratorInterface $generator
      * @param TokenRecordInterface|null $model
      */
     public function __construct(
-        TokenRepositoryConfigInterface $settings,
+        TokenRepositoryConfigInterface $config,
         TokenGeneratorInterface $generator = null,
         TokenRecordInterface $model = null
     )
     {
         $this->model = $model ?? new RegistrationToken;
         $this->generator = $generator ?? new TokenGenerator;
-        $this->settings = $settings;
+        $this->config = $config;
     }
 
     /**
@@ -90,10 +90,10 @@ class TokenRepository implements TokenRepositoryInterface
     public function send(RegistrationEntityInterface $entity, TokenSendServiceInterface $sender): bool
     {
         $token = $this->push($entity);
-        if ($token->getDeliveryCount() >= $this->settings->getDeliveryLimit()) {
+        if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
             throw new DeliveryLimitReachedException(
                 $token->getDeliveryCount(),
-                $this->settings->getExpirePeriod()
+                $this->config->getExpirePeriod()
             );
         }
         $delivered = $sender->send($token);
@@ -116,7 +116,7 @@ class TokenRepository implements TokenRepositoryInterface
     public function pull(string $tokenRecipient)
     {
         return $this->model->find()
-            ->notExpired($this->settings->getExpirePeriod())
+            ->notExpired($this->config->getExpirePeriod())
             ->whereRecipient($tokenRecipient)
             ->one();
     }
@@ -136,7 +136,7 @@ class TokenRepository implements TokenRepositoryInterface
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
         $record = $this->model->find()
-            ->notExpired($this->settings->getExpirePeriod())
+            ->notExpired($this->config->getExpirePeriod())
             ->whereRecipient($tokenRecipient)
             ->one();
 

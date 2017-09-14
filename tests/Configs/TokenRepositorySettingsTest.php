@@ -5,8 +5,11 @@ namespace Wearesho\Yii\Tests\Configs;
 
 
 use Carbon\CarbonInterval;
+
 use PHPUnit\Framework\TestCase;
+
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+
 use Wearesho\Yii\Configs\TokenRepositoryConfig;
 
 class TokenRepositorySettingsTest extends TestCase
@@ -15,7 +18,7 @@ class TokenRepositorySettingsTest extends TestCase
     {
         $config = [];
         $this->expectException(InvalidConfigurationException::class);
-        $instance = TokenRepositoryConfig::instantiate($config);
+        TokenRepositoryConfig::instantiate($config);
     }
 
     public function testInstantiating()
