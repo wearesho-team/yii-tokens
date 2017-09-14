@@ -28,7 +28,7 @@ class TokenValidator extends Validator
      * @param array $config
      * @param TokenRepositoryInterface $repository
      */
-    public function __construct(array $config = [], TokenRepositoryInterface $repository)
+    public function __construct(TokenRepositoryInterface $repository, array $config = [])
     {
         parent::__construct($config);
         $this->repository = $repository;
@@ -40,7 +40,7 @@ class TokenValidator extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
-        $recipient = $model->{$recipient};
+        $recipient = $model->{$this->recipientAttribute};
         $token = $model->{$attribute};
 
         $storedToken = $this->repository->pull($recipient);
