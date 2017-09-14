@@ -7,7 +7,7 @@ namespace Wearesho\Yii\Tests\Configs;
 use Carbon\CarbonInterval;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Wearesho\Yii\Configs\TokenRepositorySettings;
+use Wearesho\Yii\Configs\TokenRepositoryConfig;
 
 class TokenRepositorySettingsTest extends TestCase
 {
@@ -15,19 +15,19 @@ class TokenRepositorySettingsTest extends TestCase
     {
         $config = [];
         $this->expectException(InvalidConfigurationException::class);
-        $instance = TokenRepositorySettings::instantiate($config);
+        $instance = TokenRepositoryConfig::instantiate($config);
     }
 
     public function testInstantiating()
     {
         $config = [
-            TokenRepositorySettings::CONFIG_ROOT => [
+            TokenRepositoryConfig::CONFIG_ROOT => [
                 'expirePeriod' => $expirePeriodMinutes = 20,
                 'deliveryLimit' => $deliveryLimit = 2,
                 'verifyLimit' => $verifyLimit = 4,
             ],
         ];
-        $instance = TokenRepositorySettings::instantiate($config);
+        $instance = TokenRepositoryConfig::instantiate($config);
         $this->assertEquals(
             CarbonInterval::minutes($expirePeriodMinutes),
             $instance->getExpirePeriod()

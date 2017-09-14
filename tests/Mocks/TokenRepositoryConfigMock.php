@@ -4,13 +4,13 @@
 namespace Wearesho\Yii\Tests\Mocks;
 
 use Carbon\CarbonInterval;
-use Wearesho\Yii\Interfaces\TokenRepositorySettingsInterface;
+use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 /**
  * Class TokenRepositorySettingsMock
  * @package Wearesho\Yii\Tests\Mocks
  */
-class TokenRepositorySettingsMock implements TokenRepositorySettingsInterface
+class TokenRepositoryConfigMock implements TokenRepositoryConfigInterface
 {
     /** @var  CarbonInterval */
     protected $expirePeriod;

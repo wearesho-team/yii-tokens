@@ -14,7 +14,7 @@ use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
-use Wearesho\Yii\Interfaces\TokenRepositorySettingsInterface;
+use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
 use Wearesho\Yii\Models\RegistrationToken;
@@ -29,7 +29,7 @@ class TokenRepository implements TokenRepositoryInterface
     /** @var  TokenRecordInterface */
     protected $model;
 
-    /** @var  TokenRepositorySettingsInterface */
+    /** @var  TokenRepositoryConfigInterface */
     protected $settings;
 
     /** @var TokenGeneratorInterface */
@@ -37,12 +37,12 @@ class TokenRepository implements TokenRepositoryInterface
 
     /**
      * TokensRepository constructor.
-     * @param TokenRepositorySettingsInterface $settings
+     * @param TokenRepositoryConfigInterface $settings
      * @param TokenGeneratorInterface $generator
      * @param TokenRecordInterface|null $model
      */
     public function __construct(
-        TokenRepositorySettingsInterface $settings,
+        TokenRepositoryConfigInterface $settings,
         TokenGeneratorInterface $generator = null,
         TokenRecordInterface $model = null
     )

@@ -10,7 +10,7 @@ use Carbon\CarbonInterval;
  * Interface TokenRepositorySettingsInterface
  * @package Wearesho\Yii\Interfaces
  */
-interface TokenRepositorySettingsInterface
+interface TokenRepositoryConfigInterface
 {
     /**
      * @return CarbonInterval

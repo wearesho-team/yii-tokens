@@ -8,13 +8,13 @@ use Carbon\CarbonInterval;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Processor;
-use Wearesho\Yii\Interfaces\TokenRepositorySettingsInterface;
+use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 /**
  * Class TokenRepositorySettings
  * @package Wearesho\Yii\Configs
  */
-class TokenRepositorySettings implements TokenRepositorySettingsInterface, ConfigurationInterface
+class TokenRepositoryConfig implements TokenRepositoryConfigInterface, ConfigurationInterface
 {
     const CONFIG_ROOT = "TokenRepository";
 
@@ -67,7 +67,7 @@ class TokenRepositorySettings implements TokenRepositorySettingsInterface, Confi
      */
     public static function instantiate(...$configs)
     {
-        $instance = new TokenRepositorySettings;
+        $instance = new TokenRepositoryConfig;
 
         $processor = new Processor();
         $config = $processor->processConfiguration($instance, ...$configs);
