@@ -87,12 +87,20 @@ class TokenRepositoryConfig implements TokenRepositoryConfigInterface, Configura
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root(static::CONFIG_ROOT);
+        $rootNode = $treeBuilder->root($this->getConfigTreeBuilderRoot());
         $rootNode->children()
             ->integerNode("expirePeriod")->isRequired()->end()
             ->integerNode("verifyLimit")->isRequired()->end()
             ->scalarNode("deliveryLimit")->isRequired()->end()
             ->end();
         return $treeBuilder;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getConfigTreeBuilderRoot(): string
+    {
+        return static::CONFIG_ROOT;
     }
 }
