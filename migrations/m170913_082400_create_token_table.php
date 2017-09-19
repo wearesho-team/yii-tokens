@@ -3,24 +3,26 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `registration_token`.
+ * Handles the creation of table `token`.
  */
-class m170913_082400_create_registration_token_table extends Migration
+class m170913_082400_create_token_table extends Migration
 {
     /**
      * @inheritdoc
      */
     public function up()
     {
-        $this->createTable('registration_token', [
+        $this->createTable('token', [
             'id' => $this->primaryKey(),
 
             'recipient' => $this->string()->notNull(),
             'token' => $this->string()->notNull(),
-            'data' => "JSON NOT NULL",
+            'type' => $this->string(24)->notNull(),
 
-            "delivery_count" => $this->integer()->unsigned()->defaultValue(0),
-            "verify_count" => $this->integer()->unsigned()->defaultValue(0),
+            'data' => "JSON",
+
+            'delivery_count' => $this->integer()->unsigned()->defaultValue(0),
+            'verify_count' => $this->integer()->unsigned()->defaultValue(0),
 
             'created_at' => $this->timestamp()->notNull()->defaultExpression('current_timestamp'),
         ]);
@@ -31,6 +33,6 @@ class m170913_082400_create_registration_token_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('registration_token');
+        $this->dropTable('token');
     }
 }

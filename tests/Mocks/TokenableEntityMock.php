@@ -4,13 +4,13 @@
 namespace Wearesho\Yii\Tests\Mocks;
 
 
-use Wearesho\Yii\Interfaces\RegistrationEntityInterface;
+use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 
 /**
- * Class RegistrationEntityMock
+ * Class TokenableEntityMock
  * @package Wearesho\Yii\Tests\Mocks
  */
-class RegistrationEntityMock implements RegistrationEntityInterface
+class TokenableEntityMock implements TokenableEntityInterface
 {
 
     /** @var  string */

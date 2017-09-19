@@ -9,7 +9,7 @@ use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
 
 use Wearesho\Yii\Exceptions\ValidationException;
-use Wearesho\Yii\Interfaces\RegistrationEntityInterface;
+use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
@@ -17,8 +17,6 @@ use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
-use Wearesho\Yii\Models\RegistrationToken;
-use Wearesho\Yii\Services\TokenGenerator;
 
 /**
  * Class TokensRepository
@@ -42,23 +40,23 @@ class TokenRepository implements TokenRepositoryInterface
      * @param TokenRecordInterface|null $model
      */
     public function __construct(
+        TokenRecordInterface $model,
         TokenRepositoryConfigInterface $config,
-        TokenGeneratorInterface $generator = null,
-        TokenRecordInterface $model = null
+        TokenGeneratorInterface $generator
     )
     {
-        $this->model = $model ?? new RegistrationToken;
-        $this->generator = $generator ?? new TokenGenerator;
+        $this->model = $model;
+        $this->generator = $generator;
         $this->config = $config;
     }
 
     /**
      * Creating token (for example, when we receive first-stage data)
      *
-     * @param RegistrationEntityInterface $entity
+     * @param TokenableEntityInterface $entity
      * @return TokenInterface|TokenRecordInterface
      */
-    public function push(RegistrationEntityInterface $entity): TokenInterface
+    public function push(TokenableEntityInterface $entity): TokenInterface
     {
         $record = $this->pull($entity->getTokenRecipient());
         if (!$record instanceof TokenRecordInterface) {
@@ -82,12 +80,12 @@ class TokenRepository implements TokenRepositoryInterface
      *
      * @todo: preventing two write operations (update+update, insert+update)
      *
-     * @param RegistrationEntityInterface $entity
+     * @param TokenableEntityInterface $entity
      * @param TokenSendServiceInterface $sender
      * @throws DeliveryLimitReachedException
      * @return bool
      */
-    public function send(RegistrationEntityInterface $entity, TokenSendServiceInterface $sender): bool
+    public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool
     {
         $token = $this->push($entity);
         if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {

@@ -16,22 +16,22 @@ interface TokenRepositoryInterface
     /**
      * Creating token (for example, when we receive first-stage data)
      *
-     * @param RegistrationEntityInterface $entity
+     * @param TokenableEntityInterface $entity
      * @return TokenInterface
      */
-    public function push(RegistrationEntityInterface $entity): TokenInterface;
+    public function push(TokenableEntityInterface $entity): TokenInterface;
 
     /**
      * Creating and sending token
      *
-     * @param RegistrationEntityInterface $entity
+     * @param TokenableEntityInterface $entity
      * @param TokenSendServiceInterface $sender
      *
      * @throws DeliveryLimitReachedException
      *
      * @return bool
      */
-    public function send(RegistrationEntityInterface $entity, TokenSendServiceInterface $sender): bool;
+    public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool;
 
     /**
      * Pulling active token to process it (for example, sending sms)
@@ -44,7 +44,7 @@ interface TokenRepositoryInterface
     public function pull(string $tokenRecipient);
 
     /**
-     * Will return token with data to process registration if token valid
+     * Will return token with data to process action if token valid
      * Or throw one of exceptions
      *
      * @param string $tokenRecipient

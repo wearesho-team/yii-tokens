@@ -8,25 +8,28 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
 use Wearesho\Yii\Interfaces\TokenQueryInterface;
-use Wearesho\Yii\Models\RegistrationToken;
+use Wearesho\Yii\Models\Token;
 
 use yii\db\ActiveQuery;
 
 /**
- * Class RegistrationTokenQuery
+ * Class TokenQuery
  * @package Wearesho\Yii\Models
- * @see RegistrationToken
+ * @see Token
  */
-class RegistrationTokenQuery extends ActiveQuery implements TokenQueryInterface
+class TokenQuery extends ActiveQuery implements TokenQueryInterface
 {
     /**
      * RegistrationTokenQuery constructor.
      * @param string $modelClass
      * @param array $config
+     *
+     * @see Token::getType()
      */
-    public function __construct($modelClass = RegistrationToken::class, array $config = [])
+    public function __construct($modelClass, array $config = [])
     {
         parent::__construct($modelClass, $config);
+        $this->where(['=', 'type', call_user_func([$modelClass, 'getType'])]);
     }
 
     /**

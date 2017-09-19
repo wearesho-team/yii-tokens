@@ -7,38 +7,43 @@ namespace Wearesho\Yii\Tests\Queries;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
-use Wearesho\Yii\Models\RegistrationToken;
-use Wearesho\Yii\Queries\RegistrationTokenQuery;
+use Wearesho\Yii\Exceptions\ValidationException;
+use Wearesho\Yii\Models\Token;
+use Wearesho\Yii\Queries\TokenQuery;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
-use Wearesho\Yii\Tests\Fixtures\RegistrationTokenFixture;
+use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 
 /**
  * Class RegistrationTokenQueryTest
  * @package Wearesho\Yii\Tests\Queries
  */
-class RegistrationTokenQueryTest extends AbstractTestCase
+class TokenQueryTest extends AbstractTestCase
 {
-    /** @var  RegistrationTokenQuery */
+    /** @var  TokenQuery */
     protected $query;
-
-    /** @var  RegistrationTokenFixture */
-    protected $fixture;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->query = new RegistrationTokenQuery();
-        $this->fixture = new RegistrationTokenFixture();
-        $this->fixture->load();
+        $this->query = new TokenQuery(TokenRecordMock::class);
+
+        Carbon::setTestNow(Carbon::create(2014, 1, 1, 1));
+        $token = new TokenRecordMock([
+            'id' => 1,
+            'recipient' => "380500000001",
+            'token' => "000001",
+        ]);
+        ValidationException::saveOrThrow($token);
+        Carbon::setTestNow();
     }
 
     public function testModelClass()
     {
         $this->assertEquals(
-            RegistrationToken::class,
+            TokenRecordMock::class,
             $this->query->modelClass,
-            "Query should be default related to " . RegistrationToken::class
+            "Query should be equal to passed to constructor class"
         );
     }
 
@@ -50,7 +55,7 @@ class RegistrationTokenQueryTest extends AbstractTestCase
             ->one();
 
         $this->assertInstanceOf(
-            RegistrationToken::class,
+            Token::class,
             $tokenInstance,
             "Query should use whereRecipient argument to find"
         );
@@ -72,10 +77,10 @@ class RegistrationTokenQueryTest extends AbstractTestCase
 
         $tokenInstance = $this->query
             ->notExpired(CarbonInterval::hour(1))
-            ->andWHere(['=', 'id', 1])
+            ->andWhere(['=', 'id', 1])
             ->one();
         $this->assertInstanceOf(
-            RegistrationToken::class,
+            Token::class,
             $tokenInstance
         );
 

@@ -4,13 +4,14 @@ namespace Wearesho\Yii\Tests\Validators;
 
 use Carbon\CarbonInterval;
 
+use Wearesho\Yii\Exceptions\ValidationException;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
-use Wearesho\Yii\Tests\Fixtures\RegistrationTokenFixture;
 use Wearesho\Yii\Tests\Mocks\TokenCheckModelMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
+use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 
 class TokenValidatorTest extends AbstractTestCase
@@ -25,6 +26,7 @@ class TokenValidatorTest extends AbstractTestCase
     {
         parent::setUp();
         $this->repository = new TokenRepository(
+            new TokenRecordMock(),
             $config = new TokenRepositoryConfigMock,
             new TokenGeneratorMock
         );
@@ -39,9 +41,12 @@ class TokenValidatorTest extends AbstractTestCase
 
         $this->model = new TokenCheckModelMock;
 
-
-        $fixture = new RegistrationTokenFixture;
-        $fixture->load();
+        $token = new TokenRecordMock([
+            'id' => 1,
+            'recipient' => "380500000001",
+            'token' => "000001",
+        ]);
+        ValidationException::saveOrThrow($token);
     }
 
     public function testInvalidRecipient()

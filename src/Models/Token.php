@@ -3,6 +3,7 @@
 
 namespace Wearesho\Yii\Models;
 
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -14,10 +15,10 @@ use paulzi\jsonBehavior\JsonValidator;
 
 use Wearesho\Yii\Interfaces\TokenQueryInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
-use Wearesho\Yii\Queries\RegistrationTokenQuery;
+use Wearesho\Yii\Queries\TokenQuery;
 
 /**
- * Class RegistrationToken
+ * Class Token
  * @package Wearesho\Yii\Models
  *
  * @property-read int $id
@@ -31,8 +32,24 @@ use Wearesho\Yii\Queries\RegistrationTokenQuery;
  *
  * @property string $created_at
  */
-class RegistrationToken extends ActiveRecord implements TokenRecordInterface
+abstract class Token extends ActiveRecord implements TokenRecordInterface
 {
+    /**
+     * @return string
+     */
+    public static function tableName()
+    {
+        return 'token';
+    }
+
+    /**
+     * @return TokenQueryInterface
+     */
+    public static function find(): TokenQueryInterface
+    {
+        return new TokenQuery(get_called_class());
+    }
+
     /**
      * @return array
      */
@@ -52,6 +69,15 @@ class RegistrationToken extends ActiveRecord implements TokenRecordInterface
                     return Carbon::now()->toDateTimeString();
                 },
             ],
+            'type' => [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_INIT => ['type',],
+                    ActiveRecord::EVENT_BEFORE_VALIDATE => ['type',],
+                ],
+                /** @see Token::getType() */
+                'value' => [$this, 'getType']
+            ]
         ];
     }
 
@@ -71,12 +97,9 @@ class RegistrationToken extends ActiveRecord implements TokenRecordInterface
     }
 
     /**
-     * @return TokenQueryInterface
+     * @return string
      */
-    public static function find(): TokenQueryInterface
-    {
-        return new RegistrationTokenQuery();
-    }
+    abstract public static function getType(): string;
 
     /**
      * @return string

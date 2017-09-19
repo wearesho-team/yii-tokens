@@ -11,7 +11,7 @@ use Carbon\CarbonInterval;
  * Class DeliveryLimitReachedException
  * @package Wearesho\Yii\Exceptions
  */
-class DeliveryLimitReachedException extends RegistrationException
+class DeliveryLimitReachedException extends TokenException
 {
     /** @var  CarbonInterval */
     protected $timeout;

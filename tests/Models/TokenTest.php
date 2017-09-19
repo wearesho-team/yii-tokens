@@ -8,21 +8,26 @@ use Carbon\Carbon;
 
 use paulzi\jsonBehavior\JsonField;
 
-use Wearesho\Yii\Models\RegistrationToken;
-use Wearesho\Yii\Queries\RegistrationTokenQuery;
+use Wearesho\Yii\Models\Token;
+use Wearesho\Yii\Queries\TokenQuery;
 use Wearesho\Yii\Tests\AbstractTestCase;
 
+use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use yii\db\ActiveRecord;
 
-class RegistrationTokenTest extends AbstractTestCase
+/**
+ * Class TokenTest
+ * @package Wearesho\Yii\Tests\Models
+ */
+class TokenTest extends AbstractTestCase
 {
-    /** @var  RegistrationToken */
+    /** @var  Token */
     protected $model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->model = new RegistrationToken();
+        $this->model = new TokenRecordMock();
     }
 
     public function testDefaultTimestamp()
@@ -109,7 +114,7 @@ class RegistrationTokenTest extends AbstractTestCase
     public function testFind()
     {
         $this->assertInstanceOf(
-            RegistrationTokenQuery::class,
+            TokenQuery::class,
             $this->model->find()
         );
     }

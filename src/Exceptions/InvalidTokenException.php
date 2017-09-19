@@ -8,7 +8,7 @@ namespace Wearesho\Yii\Exceptions;
  * Class InvalidTokenException
  * @package Wearesho\Yii\Exceptions
  */
-class InvalidTokenException extends RegistrationException
+class InvalidTokenException extends TokenException
 {
     /** @var string  */
     protected $token;

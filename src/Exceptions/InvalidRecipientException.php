@@ -8,7 +8,7 @@ namespace Wearesho\Yii\Exceptions;
  * Class InvalidRecipientException
  * @package Wearesho\Yii\Exceptions
  */
-class InvalidRecipientException extends RegistrationException
+class InvalidRecipientException extends TokenException
 {
     /** @var string */
     protected $recipient;

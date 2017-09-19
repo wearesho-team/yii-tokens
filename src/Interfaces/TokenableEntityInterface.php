@@ -7,7 +7,7 @@ namespace Wearesho\Yii\Interfaces;
  * Interface RegistrationEntityInterface
  * @package Wearesho\Yii\Interfaces
  */
-interface RegistrationEntityInterface
+interface TokenableEntityInterface
 {
     /**
      * @return string

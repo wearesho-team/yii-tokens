@@ -15,8 +15,9 @@ use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
-use Wearesho\Yii\Tests\Mocks\RegistrationEntityMock;
+use Wearesho\Yii\Tests\Mocks\TokenableEntityMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
+use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 
@@ -40,6 +41,7 @@ class TokenRepositoryTest extends AbstractTestCase
         parent::setUp();
 
         $this->repository = new TokenRepository(
+            new TokenRecordMock(),
             $this->settings = new TokenRepositoryConfigMock,
             $this->generator = new TokenGeneratorMock
         );
@@ -51,7 +53,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testPushNewRecipient()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenData($tokenData = [
             mt_rand() => mt_rand(),
         ]);
@@ -75,7 +77,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testPushExistentRecipient()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenData([
             mt_rand() => mt_rand(),
         ]);
@@ -118,7 +120,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testPulling()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenRecipient($tokenRecipient = mt_rand());
         $entity->setTokenData($tokenData = [
             mt_rand() => mt_rand(),
@@ -155,7 +157,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testVerifyInvalidToken()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
         $entity->setTokenRecipient($recipient = mt_rand());
 
@@ -167,7 +169,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testValidVerification()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
         $entity->setTokenRecipient($recipient = mt_rand());
 
@@ -186,7 +188,7 @@ class TokenRepositoryTest extends AbstractTestCase
 
     public function testSending()
     {
-        $entity = new RegistrationEntityMock();
+        $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
         $entity->setTokenRecipient(mt_rand());
 

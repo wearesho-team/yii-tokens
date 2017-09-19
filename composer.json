@@ -1,10 +1,11 @@
 {
-  "name": "wearesho-team/yii-token-registration",
+  "name": "wearesho-team/yii-tokens",
   "type": "proprietary",
   "keywords": [
     "wearesho",
     "yii",
-    "registration"
+    "registration",
+    "tokens"
   ],
   "require": {
     "php": ">=7.0",
@@ -26,7 +27,7 @@
       "Wearesho\\Yii\\Tests\\": "tests/"
     }
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "authors": [
     {
       "name": "Alexander Letnikow",

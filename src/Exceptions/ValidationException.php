@@ -11,7 +11,7 @@ use yii\db\ActiveRecordInterface;
  * Class ValidationException
  * @package Wearesho\Yii\Exceptions
  */
-class ValidationException extends RegistrationException
+class ValidationException extends TokenException
 {
     /** @var  Model */
     protected $model;

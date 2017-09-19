@@ -1,20 +1,20 @@
-## Yii2 Token Registration
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-token-registration/build-status/master)
+## Yii2 Tokens
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokes/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/build-status/master)
 
-Verifying registration by sending token 
+Verifying some action by sending token (SMS, Telegram etc.)
 
 ### Installation
 ```bash
-composer require wearesho-team/yii-token-registration
+composer require wearesho-team/yii-tokens
 ```
 
 ### Migrations
 - Copy migrations into your project
 ```bash
 cd path-to-your-project
-cp ./vendor/wearesho-team/yii-token-registration/migrations ./console/migrations
+cp ./vendor/wearesho-team/yii-tokens/migrations ./console/migrations
 ``` 
  
 ### Configuration

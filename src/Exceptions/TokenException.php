@@ -4,6 +4,6 @@
 namespace Wearesho\Yii\Exceptions;
 
 
-class RegistrationException extends \Exception
+class TokenException extends \Exception
 {
 }

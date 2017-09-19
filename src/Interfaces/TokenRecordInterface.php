@@ -11,6 +11,11 @@ use yii\db\ActiveRecordInterface;
 interface TokenRecordInterface extends TokenInterface, ActiveRecordInterface
 {
     /**
+     * @return string
+     */
+    public static function getType(): string;
+
+    /**
      * @param string $token
      * @return TokenRecordInterface
      */
