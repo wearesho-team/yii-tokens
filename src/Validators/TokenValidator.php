@@ -2,7 +2,6 @@
 
 namespace Wearesho\Yii\Validators;
 
-use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 
 use yii\base\Model;
@@ -43,12 +42,9 @@ class TokenValidator extends Validator
         $recipient = $model->{$this->recipientAttribute};
         $token = $model->{$attribute};
 
-        $storedToken = $this->repository->pull($recipient);
-
-        if (
-            !$storedToken instanceof TokenInterface
-            || $storedToken->getToken() !== $token
-        ) {
+        try {
+            $this->repository->verify($recipient, $token);
+        } catch (\Throwable $ex) {
             $this->addError($model, $attribute, $this->message);
         }
     }

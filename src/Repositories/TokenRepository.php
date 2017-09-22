@@ -133,20 +133,18 @@ class TokenRepository implements TokenRepositoryInterface
      */
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
-        $record = $this->model->find()
-            ->notExpired($this->config->getExpirePeriod())
-            ->whereRecipient($tokenRecipient)
-            ->one();
+        $record = $this->pull($tokenRecipient);
 
         if (!$record instanceof TokenRecordInterface) {
             throw new InvalidRecipientException($tokenRecipient);
         }
 
+        $record->increaseVerifyCount();
+        ValidationException::saveOrThrow($record);
+
         if ($record->getToken() !== $token) {
             throw new InvalidTokenException($token);
         }
-
-        $record->increaseVerifyCount();
 
         return $record;
     }
