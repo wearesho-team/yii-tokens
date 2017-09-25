@@ -17,10 +17,18 @@ class TokenRepositoryConfigMock implements TokenRepositoryConfigInterface
     protected $expirePeriod;
 
     /** @var  int */
-    protected $verifyLimit;
+    protected $verifyLimit = 3;
 
     /** @var  int */
-    protected $deliveryLimit;
+    protected $deliveryLimit = 3;
+
+    /**
+     * TokenRepositoryConfigMock constructor.
+     */
+    public function __construct()
+    {
+        $this->expirePeriod = new CarbonInterval(0, 0, 0, 0, 1);
+    }
 
     /**
      * @return CarbonInterval
