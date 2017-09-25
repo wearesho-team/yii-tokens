@@ -16,6 +16,9 @@ class TokenValidator extends Validator
     /** @var  string */
     public $recipientAttribute;
 
+    /** @var  string */
+    public $targetAttribute;
+
     /** @var string */
     public $message;
 
@@ -30,6 +33,7 @@ class TokenValidator extends Validator
     public function __construct(TokenRepositoryInterface $repository, array $config = [])
     {
         parent::__construct($config);
+
         $this->repository = $repository;
         $this->message = \Yii::t('yii', '{attribute} is invalid.');
     }
@@ -44,7 +48,10 @@ class TokenValidator extends Validator
         $token = $model->{$attribute};
 
         try {
-            $this->repository->verify($recipient, $token);
+            $token = $this->repository->verify($recipient, $token);
+            if (!empty($this->targetAttribute) && $model->canSetProperty($this->targetAttribute)) {
+                $model->{$this->targetAttribute} = $token;
+            }
         } catch (\Throwable $ex) {
             $this->addError($model, $attribute, $this->message, [
                 'attribute' => $attribute,
