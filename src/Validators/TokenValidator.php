@@ -17,7 +17,7 @@ class TokenValidator extends Validator
     public $recipientAttribute;
 
     /** @var string */
-    public $message = "Token is invalid";
+    public $message;
 
     /** @var TokenRepositoryInterface */
     protected $repository;
@@ -31,6 +31,7 @@ class TokenValidator extends Validator
     {
         parent::__construct($config);
         $this->repository = $repository;
+        $this->message = \Yii::t('yii', '{attribute} is invalid.');
     }
 
     /**
@@ -45,7 +46,9 @@ class TokenValidator extends Validator
         try {
             $this->repository->verify($recipient, $token);
         } catch (\Throwable $ex) {
-            $this->addError($model, $attribute, $this->message);
+            $this->addError($model, $attribute, $this->message, [
+                'attribute' => $attribute,
+            ]);
         }
     }
 }
