@@ -14,7 +14,7 @@ composer require wearesho-team/yii-tokens
 - Copy migrations into your project
 ```bash
 cd path-to-your-project
-cp ./vendor/wearesho-team/yii-tokens/migrations ./console/migrations
+cp -R ./vendor/wearesho-team/yii-tokens/migrations ./console/migrations
 ``` 
  
 ### Configuration
