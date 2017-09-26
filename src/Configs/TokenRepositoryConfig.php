@@ -69,13 +69,19 @@ class TokenRepositoryConfig implements TokenRepositoryConfigInterface, Configura
         $instance = new TokenRepositoryConfig;
 
         $processor = new Processor();
-        $config = $processor->processConfiguration($instance, ...$configs);
+
+        $configs = array_map(function ($config) use ($instance) {
+            return $config[$instance->getConfigTreeBuilderRoot()] ?? [];
+        }, $configs);
+
+        $config = $processor->processConfiguration($instance, $configs);
 
         $config['expirePeriod'] = CarbonInterval::minutes($config['expirePeriod']);
 
         foreach ($config as $key => $value) {
             $instance->{$key} = $value;
         }
+
         return $instance;
     }
 
