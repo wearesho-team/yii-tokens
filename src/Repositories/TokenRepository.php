@@ -52,9 +52,11 @@ class TokenRepository implements TokenRepositoryInterface
 
     /**
      * Creating token (for example, when we receive first-stage data)
+     * Will increase sending counter
      *
      * @param TokenableEntityInterface $entity
      * @return TokenInterface|TokenRecordInterface
+     * @throws ValidationException
      */
     public function push(TokenableEntityInterface $entity): TokenInterface
     {
@@ -84,6 +86,7 @@ class TokenRepository implements TokenRepositoryInterface
      * @param TokenSendServiceInterface $sender
      * @throws DeliveryLimitReachedException
      * @return bool
+     * @throws ValidationException
      */
     public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool
     {
@@ -108,7 +111,6 @@ class TokenRepository implements TokenRepositoryInterface
      * Pulling active token to process it (for example, sending sms)
      *
      * @param string $tokenRecipient
-     * @throws DeliveryLimitReachedException
      * @return null|TokenRecordInterface
      */
     public function pull(string $tokenRecipient)
@@ -122,14 +124,15 @@ class TokenRepository implements TokenRepositoryInterface
     /**
      * Will return token with data to process registration if token valid
      * Or throw one of exceptions
+     * Should delete token from storage if token valid to prevent double validation for single token
      *
      * @param string $tokenRecipient
      * @param string $token
      *
-     * @throws InvalidTokenException
-     * @throws InvalidRecipientException
-     *
      * @return TokenInterface
+     * @throws InvalidRecipientException
+     * @throws InvalidTokenException
+     * @throws ValidationException
      */
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
@@ -139,12 +142,14 @@ class TokenRepository implements TokenRepositoryInterface
             throw new InvalidRecipientException($tokenRecipient);
         }
 
-        $record->increaseVerifyCount();
-        ValidationException::saveOrThrow($record);
-
         if ($record->getToken() !== $token) {
+            $record->increaseVerifyCount();
+            ValidationException::saveOrThrow($record);
+
             throw new InvalidTokenException($token);
         }
+
+        $record->delete();
 
         return $record;
     }

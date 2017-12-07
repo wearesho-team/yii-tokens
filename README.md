@@ -4,6 +4,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/build-status/master)
 
 Verifying some action by sending token (SMS, Telegram etc.)
+[Changelog](./CHANGELOG.md)
 
 ### Installation
 ```bash
