@@ -3,45 +3,34 @@
 
 namespace Wearesho\Yii\Configs;
 
-
 use Carbon\CarbonInterval;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\Definition\Processor;
-
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
+
+use yii\base\BaseObject;
+use yii\base\Configurable;
 
 /**
  * Class TokenRepositorySettings
  * @package Wearesho\Yii\Configs
  */
-class TokenRepositoryConfig implements TokenRepositoryConfigInterface, ConfigurationInterface
+class TokenRepositoryConfig extends BaseObject implements TokenRepositoryConfigInterface, Configurable
 {
-    const CONFIG_ROOT = "TokenRepository";
+    public $expirePeriodKey = 'TOKEN_EXPIRE_MINUTES';
+    public $verifyLimitKey = 'TOKEN_VERIFY_LIMIT';
+    public $deliveryLimitKey = 'TOKEN_DELIVERY_LIMIT';
 
-    /** @var CarbonInterval */
-    protected $expirePeriod;
-
-    /** @var int */
-    protected $verifyLimit;
-
-    /** @var  int */
-    protected $deliveryLimit;
-
-    /**
-     * TokenRepositorySettings constructor.
-     */
-    private function __construct()
-    {
-    }
+    public $defaultExpirePeriod = 30;
+    public $defaultVerifyLimit = 3;
+    public $defaultDeliveryLimit = 3;
 
     /**
      * @return CarbonInterval
      */
     public function getExpirePeriod(): CarbonInterval
     {
-        return $this->expirePeriod;
+        $minutes = getenv($this->expirePeriodKey) ?: $this->defaultExpirePeriod;
+        return CarbonInterval::minutes((int) $minutes);
     }
 
     /**
@@ -49,7 +38,7 @@ class TokenRepositoryConfig implements TokenRepositoryConfigInterface, Configura
      */
     public function getVerifyLimit(): int
     {
-        return $this->verifyLimit;
+        return getenv($this->verifyLimitKey) ?: $this->defaultVerifyLimit;
     }
 
     /**
@@ -57,56 +46,6 @@ class TokenRepositoryConfig implements TokenRepositoryConfigInterface, Configura
      */
     public function getDeliveryLimit(): int
     {
-        return $this->deliveryLimit;
-    }
-
-    /**
-     * @param array[] $configs
-     * @return static
-     */
-    public static function instantiate(...$configs)
-    {
-        $instance = new TokenRepositoryConfig;
-
-        $processor = new Processor();
-
-        $configs = array_map(function ($config) use ($instance) {
-            return $config[$instance->getConfigTreeBuilderRoot()] ?? [];
-        }, $configs);
-
-        $config = $processor->processConfiguration($instance, $configs);
-
-        $config['expirePeriod'] = CarbonInterval::minutes($config['expirePeriod']);
-
-        foreach ($config as $key => $value) {
-            $instance->{$key} = $value;
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
-     */
-    public function getConfigTreeBuilder()
-    {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root($this->getConfigTreeBuilderRoot());
-        $rootNode->children()
-            ->integerNode("expirePeriod")->isRequired()->end()
-            ->integerNode("verifyLimit")->isRequired()->end()
-            ->scalarNode("deliveryLimit")->isRequired()->end()
-            ->end();
-        return $treeBuilder;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getConfigTreeBuilderRoot(): string
-    {
-        return static::CONFIG_ROOT;
+        return getenv($this->deliveryLimitKey) ?: $this->defaultDeliveryLimit;
     }
 }
