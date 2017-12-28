@@ -45,9 +45,9 @@ Yii::$container->set(
         'deliveryLimitKey' => 'TOKEN_DELIVERY_LIMIT', // optional
         
         // Defaults (if no env variables set)
-        'defaultExpirePeriod' => 30,
-        'defaultDeliveryLimit' => 3,
-        'defaultVerifyLimit' => 3,
+        'defaultExpirePeriod' => 30, // optional
+        'defaultDeliveryLimit' => 3, // optional
+        'defaultVerifyLimit' => 3, // optional
     ]
 );
 
