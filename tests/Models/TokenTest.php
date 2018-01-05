@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Models;
-
 
 use Carbon\Carbon;
 
@@ -18,6 +16,8 @@ use yii\db\ActiveRecord;
 /**
  * Class TokenTest
  * @package Wearesho\Yii\Tests\Models
+ *
+ * @internal
  */
 class TokenTest extends AbstractTestCase
 {

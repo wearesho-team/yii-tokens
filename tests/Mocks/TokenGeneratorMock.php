@@ -9,6 +9,8 @@ use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 /**
  * Class TokenGeneratorMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenGeneratorMock implements TokenGeneratorInterface
 {

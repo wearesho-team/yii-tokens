@@ -10,6 +10,8 @@ use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
 /**
  * Class TokenSendServiceMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenSendServiceMock implements TokenSendServiceInterface
 {

@@ -1,5 +1,10 @@
 # Yii Tokens Changelog
 
+## 1.2.2
+- Add [TokenableEntity](./src/Entities/TokenableEntity.php)
+- Mark test classes as internal (phpDoc block)
+
+
 ## 1.2.0
 - Remove `symfony/config` from dependencies, use `getenv` for TokenRepositoryConfig
 

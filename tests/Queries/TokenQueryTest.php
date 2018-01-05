@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Queries;
-
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -17,6 +15,8 @@ use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 /**
  * Class RegistrationTokenQueryTest
  * @package Wearesho\Yii\Tests\Queries
+ *
+ * @internal
  */
 class TokenQueryTest extends AbstractTestCase
 {

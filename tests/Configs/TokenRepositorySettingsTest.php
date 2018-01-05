@@ -13,6 +13,8 @@ use Wearesho\Yii\Configs\TokenRepositoryConfig;
 /**
  * Class TokenRepositorySettingsTest
  * @package Wearesho\Yii\Tests\Configs
+ *
+ * @internal
  */
 class TokenRepositorySettingsTest extends TestCase
 {

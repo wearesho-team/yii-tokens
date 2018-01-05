@@ -25,6 +25,8 @@ use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 /**
  * Class TokenRepositoryTest
  * @package Wearesho\Yii\Tests\Repositories
+ *
+ * @internal
  */
 class TokenRepositoryTest extends AbstractTestCase
 {

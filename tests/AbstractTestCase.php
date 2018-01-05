@@ -2,7 +2,6 @@
 
 namespace Wearesho\Yii\Tests;
 
-
 use PHPUnit\Framework\TestCase;
 
 use yii\console\Application;
@@ -15,6 +14,8 @@ use \DirectoryIterator;
 /**
  * Class AbstractTestCase
  * @package Wearesho\Yii\Tests
+ *
+ * @internal
  */
 abstract class AbstractTestCase extends TestCase
 {

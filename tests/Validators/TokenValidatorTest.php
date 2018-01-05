@@ -14,6 +14,12 @@ use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 
+/**
+ * Class TokenValidatorTest
+ * @package Wearesho\Yii\Tests\Validators
+ *
+ * @internal
+ */
 class TokenValidatorTest extends AbstractTestCase
 {
     /** @var  TokenRepository */

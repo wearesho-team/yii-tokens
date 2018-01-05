@@ -1,12 +1,17 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Services;
 
 use PHPUnit\Framework\TestCase;
 
 use Wearesho\Yii\Services\TokenGenerator;
 
+/**
+ * Class TokenGeneratorTest
+ * @package Wearesho\Yii\Tests\Services
+ *
+ * @internal
+ */
 class TokenGeneratorTest extends TestCase
 {
     public function testLength()
