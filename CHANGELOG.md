@@ -1,5 +1,9 @@
 # Yii Tokens Changelog
 
+## 1.3.0
+- Add `__toString` method to [TokenInterface](./src/Interfaces/TokenInterface.php)
+- Fix issue with missing validation period
+
 ## 1.2.2
 - Add [TokenableEntity](./src/Entities/TokenableEntity.php)
 - Mark test classes as internal (phpDoc block)
