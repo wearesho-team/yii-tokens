@@ -29,7 +29,7 @@ class TokenRepositoryConfigMock implements TokenRepositoryConfigInterface
      */
     public function __construct()
     {
-        $this->expirePeriod = new CarbonInterval(0, 0, 0, 0, 1);
+        $this->expirePeriod = CarbonInterval::hour();
     }
 
     /**

@@ -143,14 +143,15 @@ class TokenRepository implements TokenRepositoryInterface
         }
 
         $record->increaseVerifyCount();
+
+        ValidationException::saveOrThrow($record);
+
         if ($this->config->getVerifyLimit() < $record->getVerifyCount()) {
             throw new DeliveryLimitReachedException(
                 $record->getVerifyCount(),
                 $this->config->getExpirePeriod()
             );
         }
-
-        ValidationException::saveOrThrow($record);
 
         if ($record->getToken() !== $token) {
             throw new InvalidTokenException($token);
