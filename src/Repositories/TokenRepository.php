@@ -132,6 +132,7 @@ class TokenRepository implements TokenRepositoryInterface
      * @throws DeliveryLimitReachedException
      * @throws InvalidRecipientException
      * @throws InvalidTokenException
+     * @throws ValidationException
      */
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
@@ -151,6 +152,7 @@ class TokenRepository implements TokenRepositoryInterface
 
         ValidationException::saveOrThrow($record);
 
+        if ($record->getToken() !== $token) {
             throw new InvalidTokenException($token);
         }
 

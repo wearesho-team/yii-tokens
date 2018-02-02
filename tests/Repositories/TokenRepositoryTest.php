@@ -184,7 +184,7 @@ class TokenRepositoryTest extends AbstractTestCase
             $verifiedToken
         );
         $this->assertEquals(
-            $token->getVerifyCount(),
+            $token->getVerifyCount() + 1,
             $verifiedToken->getVerifyCount()
         );
         $this->assertFalse(
