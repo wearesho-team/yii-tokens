@@ -2,6 +2,7 @@
 
 namespace Wearesho\Yii\Validators;
 
+use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 
 use yii\base\Model;
@@ -25,6 +26,9 @@ class TokenValidator extends Validator
     /** @var string */
     public $message;
 
+    /** @var   */
+    public $limitReachedMessage;
+
     /** @var TokenRepositoryInterface */
     protected $repository;
 
@@ -39,6 +43,7 @@ class TokenValidator extends Validator
 
         $this->repository = $repository;
         $this->message = \Yii::t('yii', '{attribute} is invalid.');
+        $this->limitReachedMessage = \Yii::t('yii', 'Limit of messages is reached');
     }
 
     /**
@@ -58,6 +63,8 @@ class TokenValidator extends Validator
             if (!empty($this->targetAttribute) && $model->canSetProperty($this->targetAttribute)) {
                 $model->{$this->targetAttribute} = $token;
             }
+        } catch (DeliveryLimitReachedException $ex) {
+            $this->addError($model, $attribute, $this->limitReachedMessage);
         } catch (\Throwable $ex) {
             $this->addError($model, $attribute, $this->message, [
                 'attribute' => $attribute,

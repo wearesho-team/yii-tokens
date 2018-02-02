@@ -128,8 +128,8 @@ class TokenRepository implements TokenRepositoryInterface
      *
      * @param string $tokenRecipient
      * @param string $token
-     *
      * @return TokenInterface
+     * @throws DeliveryLimitReachedException
      * @throws InvalidRecipientException
      * @throws InvalidTokenException
      * @throws ValidationException
@@ -142,10 +142,18 @@ class TokenRepository implements TokenRepositoryInterface
             throw new InvalidRecipientException($tokenRecipient);
         }
 
-        if ($record->getToken() !== $token) {
-            $record->increaseVerifyCount();
-            ValidationException::saveOrThrow($record);
+        $record->increaseVerifyCount();
 
+        ValidationException::saveOrThrow($record);
+
+        if ($this->config->getVerifyLimit() < $record->getVerifyCount()) {
+            throw new DeliveryLimitReachedException(
+                $record->getVerifyCount(),
+                $this->config->getExpirePeriod()
+            );
+        }
+
+        if ($record->getToken() !== $token) {
             throw new InvalidTokenException($token);
         }
 
