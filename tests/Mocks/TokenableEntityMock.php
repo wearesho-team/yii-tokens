@@ -9,6 +9,8 @@ use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 /**
  * Class TokenableEntityMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenableEntityMock implements TokenableEntityInterface
 {

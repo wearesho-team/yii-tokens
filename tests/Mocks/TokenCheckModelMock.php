@@ -11,6 +11,8 @@ use yii\base\Model;
 /**
  * Class TokenCheckModelMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenCheckModelMock extends Model
 {

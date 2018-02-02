@@ -23,6 +23,7 @@ interface TokenRepositoryInterface
 
     /**
      * Creating and sending token
+     * Will increase sending counter
      *
      * @param TokenableEntityInterface $entity
      * @param TokenSendServiceInterface $sender
@@ -35,10 +36,9 @@ interface TokenRepositoryInterface
 
     /**
      * Pulling active token to process it (for example, sending sms)
-     * Will increase sending counter
+     * Will not increase sending counter
      *
      * @param string $tokenRecipient
-     * @throws DeliveryLimitReachedException
      * @return TokenInterface|null
      */
     public function pull(string $tokenRecipient);
@@ -46,6 +46,7 @@ interface TokenRepositoryInterface
     /**
      * Will return token with data to process action if token valid
      * Or throw one of exceptions
+     * Should delete token from storage if token valid to prevent double validation for single token
      *
      * @param string $tokenRecipient
      * @param string $token

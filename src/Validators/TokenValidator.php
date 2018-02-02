@@ -17,6 +17,9 @@ class TokenValidator extends Validator
     /** @var  string */
     public $recipientAttribute;
 
+    /** @var  callable */
+    public $recipient;
+
     /** @var  string */
     public $targetAttribute;
 
@@ -49,7 +52,10 @@ class TokenValidator extends Validator
      */
     public function validateAttribute($model, $attribute)
     {
-        $recipient = $model->{$this->recipientAttribute};
+        $recipient = is_callable($this->recipient)
+            ? call_user_func($this->recipient, $model, $attribute)
+            : $model->{$this->recipientAttribute};
+
         $token = $model->{$attribute};
 
         try {

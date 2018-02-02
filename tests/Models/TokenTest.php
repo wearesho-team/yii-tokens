@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Models;
-
 
 use Carbon\Carbon;
 
@@ -18,6 +16,8 @@ use yii\db\ActiveRecord;
 /**
  * Class TokenTest
  * @package Wearesho\Yii\Tests\Models
+ *
+ * @internal
  */
 class TokenTest extends AbstractTestCase
 {
@@ -137,5 +137,14 @@ class TokenTest extends AbstractTestCase
             $this->model->validate(),
             "Only token and recipient should by required attributes"
         );
+    }
+
+    public function testToStringConversion()
+    {
+        $token = 'test';
+
+        $this->model->setToken($token);
+
+        $this->assertEquals($token, $this->model->__toString());
     }
 }

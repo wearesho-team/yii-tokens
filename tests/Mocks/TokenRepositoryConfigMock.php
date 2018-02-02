@@ -10,6 +10,8 @@ use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 /**
  * Class TokenRepositorySettingsMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenRepositoryConfigMock implements TokenRepositoryConfigInterface
 {

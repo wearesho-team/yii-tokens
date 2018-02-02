@@ -9,6 +9,8 @@ use Wearesho\Yii\Models\Token;
 /**
  * Class TokenRecordMock
  * @package Wearesho\Yii\Tests\Mocks
+ *
+ * @internal
  */
 class TokenRecordMock extends Token
 {

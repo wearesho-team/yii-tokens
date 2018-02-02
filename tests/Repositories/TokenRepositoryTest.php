@@ -12,6 +12,7 @@ use Wearesho\Yii\Exceptions\InvalidTokenException;
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
+use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Repositories\TokenRepository;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
@@ -24,6 +25,8 @@ use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 /**
  * Class TokenRepositoryTest
  * @package Wearesho\Yii\Tests\Repositories
+ *
+ * @internal
  */
 class TokenRepositoryTest extends AbstractTestCase
 {
@@ -181,8 +184,14 @@ class TokenRepositoryTest extends AbstractTestCase
             $verifiedToken
         );
         $this->assertEquals(
-            $token->getVerifyCount() + 1,
+            $token->getVerifyCount(),
             $verifiedToken->getVerifyCount()
+        );
+        $this->assertFalse(
+            TokenRecordMock::find()
+                ->andWhere(['=', 'token', $token->getToken(),])
+                ->andWhere(['=', 'recipient', $token->getRecipient()])
+                ->exists()
         );
     }
 

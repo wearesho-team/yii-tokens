@@ -42,4 +42,6 @@ interface TokenInterface
      * @return int
      */
     public function getVerifyCount(): int;
+
+    public function __toString(): string;
 }
