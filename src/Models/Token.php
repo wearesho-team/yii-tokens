@@ -192,4 +192,9 @@ abstract class Token extends ActiveRecord implements TokenRecordInterface
         $this->delivery_count++;
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->token;
+    }
 }

@@ -138,4 +138,13 @@ class TokenTest extends AbstractTestCase
             "Only token and recipient should by required attributes"
         );
     }
+
+    public function testToStringConversion()
+    {
+        $token = 'test';
+
+        $this->model->setToken($token);
+
+        $this->assertEquals($token, $this->model->__toString());
+    }
 }
