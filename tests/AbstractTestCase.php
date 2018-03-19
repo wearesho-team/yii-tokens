@@ -51,10 +51,12 @@ abstract class AbstractTestCase extends TestCase
             }
             include_once $file->getRealPath();
             $class = str_replace('.php', '', $file);
-            $this->migrations[] = $migration = new $class;
+
+            $migration = new $class;
             if (!$migration instanceof Migration) {
                 continue;
             }
+            $this->migrations[] = $migration;
 
             ob_start();
             $migration->up();
