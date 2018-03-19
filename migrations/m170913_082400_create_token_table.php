@@ -19,7 +19,7 @@ class m170913_082400_create_token_table extends Migration
             'token' => $this->string()->notNull(),
             'type' => $this->string(24)->notNull(),
 
-            'data' => "JSON",
+            'data' => $this->json(),
 
             'delivery_count' => $this->integer()->unsigned()->defaultValue(0),
             'verify_count' => $this->integer()->unsigned()->defaultValue(0),

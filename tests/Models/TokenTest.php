@@ -42,15 +42,6 @@ class TokenTest extends AbstractTestCase
         Carbon::setTestNow();
     }
 
-    public function testDefaultJson()
-    {
-        $this->assertInstanceOf(
-            JsonField::class,
-            $this->model->data,
-            "Data should be init as " . JsonField::class
-        );
-    }
-
     public function testRecipient()
     {
         $recipient = mt_rand();
