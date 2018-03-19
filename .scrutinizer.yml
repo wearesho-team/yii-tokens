@@ -1,12 +1,33 @@
 build:
-    tests:
-        override:
-            -
-                command: ./vendor/bin/phpunit --coverage-clover=my-coverage-file
-                coverage:
-                    file: my-coverage-file
-                    format: php-clover
+  project_setup:
+    override:
+      - mysql -u root -e "CREATE DATABASE yii_tokens CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+  tests:
+    override:
+      -
+        command: ./vendor/bin/phpunit --coverage-clover=my-coverage-file
+        coverage:
+            file: my-coverage-file
+            format: php-clover
+
+  environment:
+    php:
+      version: '7.0'
+      ini:
+          'date.timezone': 'Europe/Kiev'
+
+    redis: false
+    postgresql: false
+
+    mysql: 5.7
+    variables:
+      DB_TYPE: mysql
+      DB_HOST: localhost
+      DB_USER: root
+      DB_NAME: yii_tokens
+      DB_PASS:
 
 checks:
-    php:
-        code_rating: true
+  php:
+    code_rating: true

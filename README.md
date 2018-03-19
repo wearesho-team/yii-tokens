@@ -3,12 +3,13 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokes/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/build-status/master)
 
-Verifying some action by sending token (SMS, Email, Telegram etc.)  
+Verifying some action by sending token (SMS, Email, Telegram etc.)
+Compatible only with MySQL and PostgreSQL  
 [CHANGELOG](./CHANGELOG.md)
 
 ### Installation
 ```bash
-composer require wearesho-team/yii-tokens:~1.2.0
+composer require wearesho-team/yii-tokens:~2.0.0
 ```
 
 ### Migrations

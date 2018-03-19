@@ -25,7 +25,7 @@ use Wearesho\Yii\Queries\TokenQuery;
  *
  * @property string $token
  * @property string $recipient
- * @property JsonField $data
+ * @property array $data
  *
  * @property int $delivery_count
  * @property int $verify_count
@@ -56,15 +56,9 @@ abstract class Token extends ActiveRecord implements TokenRecordInterface
     public function behaviors()
     {
         return [
-            'jsonData' => [
-                'class' => JsonBehavior::class,
-                'attributes' => ['data'],
-            ],
             'timestamp' => [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-                ],
+                'updatedAtAttribute' => null,
                 'value' => function () {
                     return Carbon::now()->toDateTimeString();
                 },
@@ -92,7 +86,7 @@ abstract class Token extends ActiveRecord implements TokenRecordInterface
             [['verify_count', 'delivery_count'], 'integer', 'min' => 0,],
             ['verify_count', 'default', 'value' => 0,],
             ['delivery_count', 'default', 'value' => 0,],
-            ['data', JsonValidator::class,]
+            ['data', 'safe',],
         ];
     }
 
@@ -122,7 +116,7 @@ abstract class Token extends ActiveRecord implements TokenRecordInterface
      */
     public function getData(): array
     {
-        return $this->data->toArray();
+        return $this->data;
     }
 
     /**
@@ -171,7 +165,7 @@ abstract class Token extends ActiveRecord implements TokenRecordInterface
      */
     public function setData(array $data): TokenRecordInterface
     {
-        $this->data->set($data);
+        $this->data = $data;
         return $this;
     }
 

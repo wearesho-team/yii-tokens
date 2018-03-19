@@ -19,14 +19,16 @@ use \DirectoryIterator;
  */
 abstract class AbstractTestCase extends TestCase
 {
+    /**
+     * @var Migration[]
+     */
+    private $migrations = [];
+
     protected function setUp()
     {
         parent::setUp();
-        if (file_exists($_ENV['DB_PATH'])) {
-            unlink($_ENV['DB_PATH']);
-        }
-        file_put_contents($_ENV['DB_PATH'], '');
-        chmod($_ENV['DB_PATH'], 0755);
+
+        $dsn = getenv('DB_TYPE') . ":host=" . getenv("DB_HOST") . ";dbname=" . getenv("DB_NAME");
 
         $config = [
             'id' => 'yii-register-confirmation-test',
@@ -34,19 +36,22 @@ abstract class AbstractTestCase extends TestCase
             'components' => [
                 'db' => [
                     'class' => Connection::class,
-                    'dsn' => 'sqlite:' . $_ENV['DB_PATH'],
+                    'dsn' => $dsn,
+                    'username' => getenv('DB_USER'),
+                    'password' => getenv('DB_PASS') ?: '',
                 ],
             ],
         ];
 
         \Yii::$app = new Application($config);
+        $this->migrations = [];
         foreach (new DirectoryIterator(dirname(__DIR__) . "/migrations") as $file) {
             if (!$file->isFile()) {
                 continue;
             }
             include_once $file->getRealPath();
             $class = str_replace('.php', '', $file);
-            $migration = new $class;
+            $this->migrations[] = $migration = new $class;
             if (!$migration instanceof Migration) {
                 continue;
             }
@@ -61,9 +66,12 @@ abstract class AbstractTestCase extends TestCase
     {
         parent::tearDown();
 
-        \Yii::$app = null;
-        if (file_exists($_ENV['DB_PATH'])) {
-            unlink($_ENV['DB_PATH']);
+        /** @var Migration $migration */
+        foreach (array_reverse($this->migrations) as $migration) {
+            ob_start();
+            $migration->down();
+            ob_end_clean();
         }
+        \Yii::$app = null;
     }
 }
