@@ -9,10 +9,6 @@ use yii\db\ActiveRecord;
 
 use Carbon\Carbon;
 
-use paulzi\jsonBehavior\JsonBehavior;
-use paulzi\jsonBehavior\JsonField;
-use paulzi\jsonBehavior\JsonValidator;
-
 use Wearesho\Yii\Interfaces\TokenQueryInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Queries\TokenQuery;
