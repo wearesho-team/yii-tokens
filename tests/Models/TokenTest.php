@@ -4,8 +4,6 @@ namespace Wearesho\Yii\Tests\Models;
 
 use Carbon\Carbon;
 
-use paulzi\jsonBehavior\JsonField;
-
 use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Queries\TokenQuery;
 use Wearesho\Yii\Tests\AbstractTestCase;
