@@ -9,7 +9,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "yiisoft/yii2": "~2.0.14.1",
+    "yiisoft/yii2": "^2.0.14.2",
     "nesbot/carbon": "^1.22"
   },
   "require-dev": {
