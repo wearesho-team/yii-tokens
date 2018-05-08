@@ -6,7 +6,6 @@ use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
 
-
 /**
  * Interface TokensRepositoryInterface
  * @package Wearesho\Yii\Interfaces

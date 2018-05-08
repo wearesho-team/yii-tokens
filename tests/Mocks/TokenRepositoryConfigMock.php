@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Mocks;
 
 use Carbon\CarbonInterval;

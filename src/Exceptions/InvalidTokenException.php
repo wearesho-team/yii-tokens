@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Exceptions;
 
-
 /**
  * Class InvalidTokenException
  * @package Wearesho\Yii\Exceptions
