@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Interfaces;
 
-
 use Carbon\CarbonInterval;
 
 /**

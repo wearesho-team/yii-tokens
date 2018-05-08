@@ -2,7 +2,6 @@
 
 namespace Wearesho\Yii\Interfaces;
 
-
 /**
  * Interface RegistrationEntityInterface
  * @package Wearesho\Yii\Interfaces

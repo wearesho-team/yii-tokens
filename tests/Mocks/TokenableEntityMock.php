@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Tests\Mocks;
 
-
 use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 
 /**

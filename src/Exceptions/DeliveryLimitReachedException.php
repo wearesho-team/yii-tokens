@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Exceptions;
 
-
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 

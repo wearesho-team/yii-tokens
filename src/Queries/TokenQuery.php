@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Queries;
 
-
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 

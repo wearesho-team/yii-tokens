@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Repositories;
 
-
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
@@ -43,8 +42,7 @@ class TokenRepository implements TokenRepositoryInterface
         TokenRecordInterface $model,
         TokenRepositoryConfigInterface $config,
         TokenGeneratorInterface $generator
-    )
-    {
+    ) {
         $this->model = $model;
         $this->generator = $generator;
         $this->config = $config;
@@ -161,5 +159,4 @@ class TokenRepository implements TokenRepositoryInterface
 
         return $record;
     }
-
 }

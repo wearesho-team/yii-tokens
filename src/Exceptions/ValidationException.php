@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Exceptions;
 
-
 use yii\base\Model;
 use yii\db\ActiveRecordInterface;
 

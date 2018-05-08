@@ -10,10 +10,12 @@ build:
         coverage:
             file: my-coverage-file
             format: php-clover
+      -
+        command: ./vendor/bin/phpcs --standard=PSR2 ./src ./tests
 
   environment:
     php:
-      version: '7.0'
+      version: '7.1'
       ini:
           'date.timezone': 'Europe/Kiev'
 

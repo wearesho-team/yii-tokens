@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Wearesho\Yii\Tests\Mocks;
-
 
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
@@ -34,5 +32,4 @@ class TokenSendServiceMock implements TokenSendServiceInterface
     {
         $this->expectedResult = $expectedResult;
     }
-
 }

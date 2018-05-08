@@ -3,7 +3,6 @@
 
 namespace Wearesho\Yii\Exceptions;
 
-
 /**
  * Class InvalidRecipientException
  * @package Wearesho\Yii\Exceptions

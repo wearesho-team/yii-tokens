@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:ignoreFile
+
 use Dotenv\Dotenv;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -10,7 +12,7 @@ defined('YII_ENV') or define('YII_ENV', 'test');
 
 $env = new Dotenv(dirname(__DIR__));
 
-if(file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env')) {
+if (file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env')) {
     $env->load();
 }
 

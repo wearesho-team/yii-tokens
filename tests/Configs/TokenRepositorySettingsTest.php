@@ -66,5 +66,4 @@ class TokenRepositorySettingsTest extends TestCase
         putenv("{$this->config->verifyLimitKey}={$verifyLimit}");
         $this->assertEquals($verifyLimit, $this->config->getVerifyLimit());
     }
-
 }
