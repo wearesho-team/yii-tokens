@@ -9,6 +9,7 @@
   ],
   "require": {
     "php": ">=7.1",
+    "horat1us/yii2-base": "^1.11",
     "nesbot/carbon": "^1.22",
     "wearesho-team/message-delivery": "^1.3",
     "yiisoft/yii2": "^2.0.14.2"

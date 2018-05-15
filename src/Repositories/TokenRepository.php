@@ -7,7 +7,7 @@ use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
 
-use Wearesho\Yii\Exceptions\ValidationException;
+use Horat1us\Yii\Exceptions\ModelException;
 use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 use Wearesho\Yii\Interfaces\TokenInterface;
@@ -61,7 +61,7 @@ class TokenRepository implements TokenRepositoryInterface
      *
      * @param TokenableEntityInterface $entity
      * @return TokenInterface|TokenRecordInterface
-     * @throws ValidationException
+     * @throws ModelException
      */
     public function push(TokenableEntityInterface $entity): TokenInterface
     {
@@ -76,7 +76,7 @@ class TokenRepository implements TokenRepositoryInterface
         }
 
         $record->setData($entity->getTokenData());
-        ValidationException::saveOrThrow($record);
+        ModelException::saveOrThrow($record);
 
         return $record;
     }
@@ -89,10 +89,10 @@ class TokenRepository implements TokenRepositoryInterface
      *
      * @param TokenableEntityInterface $entity
      * @throws DeliveryLimitReachedException
-     * @return bool
-     * @throws ValidationException
+     * @throws Delivery\Exception
+     * @throws ModelException
      */
-    public function send(TokenableEntityInterface $entity): bool
+    public function send(TokenableEntityInterface $entity)
     {
         $token = $this->push($entity);
         if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
@@ -102,18 +102,12 @@ class TokenRepository implements TokenRepositoryInterface
             );
         }
 
-        try {
-            $this->deliveryService->send($token);
-        } catch (Delivery\Exception $e) {
-            return false;
-        }
+        $this->deliveryService->send($token);
 
         if ($token instanceof TokenRecordInterface) {
             $token->increaseDeliveryCount();
-            ValidationException::saveOrThrow($token);
+            ModelException::saveOrThrow($token);
         }
-
-        return true;
     }
 
     /**
@@ -141,7 +135,7 @@ class TokenRepository implements TokenRepositoryInterface
      * @throws DeliveryLimitReachedException
      * @throws InvalidRecipientException
      * @throws InvalidTokenException
-     * @throws ValidationException
+     * @throws ModelException
      */
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
@@ -153,7 +147,7 @@ class TokenRepository implements TokenRepositoryInterface
 
         $record->increaseVerifyCount();
 
-        ValidationException::saveOrThrow($record);
+        ModelException::saveOrThrow($record);
 
         if ($this->config->getVerifyLimit() < $record->getVerifyCount()) {
             throw new DeliveryLimitReachedException(

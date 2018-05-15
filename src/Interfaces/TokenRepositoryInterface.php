@@ -27,10 +27,8 @@ interface TokenRepositoryInterface
      * @param TokenableEntityInterface $entity
      *
      * @throws DeliveryLimitReachedException
-     *
-     * @return bool
      */
-    public function send(TokenableEntityInterface $entity): bool;
+    public function send(TokenableEntityInterface $entity);
 
     /**
      * Pulling active token to process it (for example, sending sms)

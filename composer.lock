@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "326be2dd0a5fde619cbf9861e2c5fb45",
+    "content-hash": "3ce01306e4faa638c8bf80942acba699",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -267,6 +267,55 @@
                 "html"
             ],
             "time": "2018-02-23T01:58:20+00:00"
+        },
+        {
+            "name": "horat1us/yii2-base",
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Horat1us/yii2-base.git",
+                "reference": "e39fda96e46330e9551dcc3bc43e0f9babeeed41"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Horat1us/yii2-base/zipball/e39fda96e46330e9551dcc3bc43e0f9babeeed41",
+                "reference": "e39fda96e46330e9551dcc3bc43e0f9babeeed41",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^1.22",
+                "php": ">=7.1",
+                "yiisoft/yii2": "^2.0.13.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.7",
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Horat1us\\Yii\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Letnikow",
+                    "email": "reclamme@gmail.com"
+                }
+            ],
+            "description": "Some extensions for Yii2 Framework",
+            "keywords": [
+                "base",
+                "extension",
+                "horat1us",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-05-08T13:14:32+00:00"
         },
         {
             "name": "nesbot/carbon",
