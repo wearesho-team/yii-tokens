@@ -47,8 +47,7 @@ class TokenRepository implements TokenRepositoryInterface
         TokenRepositoryConfigInterface $config,
         TokenGeneratorInterface $generator,
         Delivery\ServiceInterface $service
-    )
-    {
+    ) {
         $this->model = $model;
         $this->generator = $generator;
         $this->config = $config;
