@@ -32,20 +32,27 @@ class TokenRepository implements TokenRepositoryInterface
     /** @var TokenGeneratorInterface */
     protected $generator;
 
+    /** @var Delivery\ServiceInterface */
+    protected $deliveryService;
+
     /**
      * TokensRepository constructor.
+     * @param TokenRecordInterface|null $model
      * @param TokenRepositoryConfigInterface $config
      * @param TokenGeneratorInterface $generator
-     * @param TokenRecordInterface|null $model
+     * @param Delivery\ServiceInterface $service
      */
     public function __construct(
         TokenRecordInterface $model,
         TokenRepositoryConfigInterface $config,
-        TokenGeneratorInterface $generator
-    ) {
+        TokenGeneratorInterface $generator,
+        Delivery\ServiceInterface $service
+    )
+    {
         $this->model = $model;
         $this->generator = $generator;
         $this->config = $config;
+        $this->deliveryService = $service;
     }
 
     /**
@@ -81,12 +88,11 @@ class TokenRepository implements TokenRepositoryInterface
      * @todo: preventing two write operations (update+update, insert+update)
      *
      * @param TokenableEntityInterface $entity
-     * @param Delivery\ServiceInterface $sender
      * @throws DeliveryLimitReachedException
      * @return bool
      * @throws ValidationException
      */
-    public function send(TokenableEntityInterface $entity, Delivery\ServiceInterface $sender): bool
+    public function send(TokenableEntityInterface $entity): bool
     {
         $token = $this->push($entity);
         if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
@@ -97,7 +103,7 @@ class TokenRepository implements TokenRepositoryInterface
         }
 
         try {
-            $sender->send($token);
+            $this->deliveryService->send($token);
         } catch (Delivery\Exception $e) {
             return false;
         }

@@ -13,6 +13,7 @@ use Wearesho\Yii\Tests\Mocks\TokenCheckModelMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
+use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 
 /**
  * Class TokenValidatorTest
@@ -34,7 +35,8 @@ class TokenValidatorTest extends AbstractTestCase
         $this->repository = new TokenRepository(
             new TokenRecordMock(),
             $config = new TokenRepositoryConfigMock,
-            new TokenGeneratorMock
+            new TokenGeneratorMock,
+            new TokenSendServiceMock()
         );
         $config->setExpirePeriod(CarbonInterval::years(5));
 

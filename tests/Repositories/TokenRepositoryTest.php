@@ -46,7 +46,8 @@ class TokenRepositoryTest extends AbstractTestCase
         $this->repository = new TokenRepository(
             new TokenRecordMock(),
             $this->settings = new TokenRepositoryConfigMock,
-            $this->generator = new TokenGeneratorMock
+            $this->generator = new TokenGeneratorMock,
+            new TokenSendServiceMock()
         );
 
         $this->settings->setExpirePeriod(CarbonInterval::day());
