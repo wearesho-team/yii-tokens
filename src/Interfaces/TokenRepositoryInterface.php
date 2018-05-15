@@ -5,6 +5,7 @@ namespace Wearesho\Yii\Interfaces;
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
+use Wearesho\Delivery;
 
 /**
  * Interface TokensRepositoryInterface
@@ -25,13 +26,13 @@ interface TokenRepositoryInterface
      * Will increase sending counter
      *
      * @param TokenableEntityInterface $entity
-     * @param TokenSendServiceInterface $sender
+     * @param Delivery\ServiceInterface $sender
      *
      * @throws DeliveryLimitReachedException
      *
      * @return bool
      */
-    public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool;
+    public function send(TokenableEntityInterface $entity, Delivery\ServiceInterface $sender): bool;
 
     /**
      * Pulling active token to process it (for example, sending sms)

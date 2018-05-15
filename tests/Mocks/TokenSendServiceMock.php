@@ -2,8 +2,7 @@
 
 namespace Wearesho\Yii\Tests\Mocks;
 
-use Wearesho\Yii\Interfaces\TokenInterface;
-use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
+use Wearesho\Delivery;
 
 /**
  * Class TokenSendServiceMock
@@ -11,18 +10,13 @@ use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
  *
  * @internal
  */
-class TokenSendServiceMock implements TokenSendServiceInterface
+class TokenSendServiceMock implements Delivery\ServiceInterface
 {
     /** @var  bool */
     protected $expectedResult = true;
 
-    /**
-     * @param TokenInterface $token
-     * @return bool
-     */
-    public function send(TokenInterface $token): bool
+    public function send(Delivery\MessageInterface $message): void
     {
-        return $this->expectedResult;
     }
 
     /**

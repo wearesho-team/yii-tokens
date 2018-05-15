@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "885dbdeec052f883cdd5a9fb34c89672",
+    "content-hash": "326be2dd0a5fde619cbf9861e2c5fb45",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -442,6 +442,46 @@
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
             "time": "2018-04-30T01:22:56+00:00"
+        },
+        {
+            "name": "wearesho-team/message-delivery",
+            "version": "1.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wearesho-team/message-delivery.git",
+                "reference": "ee2b1a942fda9e82b44de8d506453ca68b2666a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wearesho-team/message-delivery/zipball/ee2b1a942fda9e82b44de8d506453ca68b2666a7",
+                "reference": "ee2b1a942fda9e82b44de8d506453ca68b2666a7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.1",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wearesho\\Delivery\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Letnikow",
+                    "email": "reclamme@gmail.com"
+                }
+            ],
+            "description": "Message Delivery Interfaces",
+            "time": "2018-05-15T12:46:57+00:00"
         },
         {
             "name": "yiisoft/yii2",

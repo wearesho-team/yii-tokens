@@ -15,7 +15,7 @@ use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
-use Wearesho\Yii\Interfaces\TokenSendServiceInterface;
+use Wearesho\Delivery;
 
 /**
  * Class TokensRepository
@@ -81,12 +81,12 @@ class TokenRepository implements TokenRepositoryInterface
      * @todo: preventing two write operations (update+update, insert+update)
      *
      * @param TokenableEntityInterface $entity
-     * @param TokenSendServiceInterface $sender
+     * @param Delivery\ServiceInterface $sender
      * @throws DeliveryLimitReachedException
      * @return bool
      * @throws ValidationException
      */
-    public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool
+    public function send(TokenableEntityInterface $entity, Delivery\ServiceInterface $sender): bool
     {
         $token = $this->push($entity);
         if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
@@ -95,14 +95,19 @@ class TokenRepository implements TokenRepositoryInterface
                 $this->config->getExpirePeriod()
             );
         }
-        $delivered = $sender->send($token);
 
-        if ($token instanceof TokenRecordInterface && $delivered) {
+        try {
+            $sender->send($token);
+        } catch (Delivery\Exception $e) {
+            return false;
+        }
+
+        if ($token instanceof TokenRecordInterface) {
             $token->increaseDeliveryCount();
             ValidationException::saveOrThrow($token);
         }
 
-        return $delivered;
+        return true;
     }
 
     /**
