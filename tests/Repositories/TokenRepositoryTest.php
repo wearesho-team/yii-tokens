@@ -5,6 +5,8 @@ namespace Wearesho\Yii\Tests\Repositories;
 
 use Carbon\CarbonInterval;
 
+use Wearesho\Delivery;
+
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
@@ -12,7 +14,6 @@ use Wearesho\Yii\Exceptions\InvalidTokenException;
 use Wearesho\Yii\Interfaces\TokenInterface;
 use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
-use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Repositories\TokenRepository;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
@@ -20,7 +21,6 @@ use Wearesho\Yii\Tests\Mocks\TokenableEntityMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
-use Wearesho\Yii\Tests\Mocks\TokenSendServiceMock;
 
 /**
  * Class TokenRepositoryTest
@@ -46,7 +46,8 @@ class TokenRepositoryTest extends AbstractTestCase
         $this->repository = new TokenRepository(
             new TokenRecordMock(),
             $this->settings = new TokenRepositoryConfigMock,
-            $this->generator = new TokenGeneratorMock
+            $this->generator = new TokenGeneratorMock,
+            new Delivery\ServiceMock()
         );
 
         $this->settings->setExpirePeriod(CarbonInterval::day());
@@ -201,7 +202,7 @@ class TokenRepositoryTest extends AbstractTestCase
         $entity->setTokenData([mt_rand()]);
         $entity->setTokenRecipient(mt_rand());
 
-        $sendService = new TokenSendServiceMock();
+        $sendService = new Delivery\ServiceMock();
 
         for ($i = 0; $i < $this->settings->getDeliveryLimit(); $i++) {
             $this->repository->send($entity, $sendService);

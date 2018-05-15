@@ -5,7 +5,7 @@ namespace Wearesho\Yii\Tests\Queries;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
-use Wearesho\Yii\Exceptions\ValidationException;
+use Horat1us\Yii\Exceptions\ModelException;
 use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Queries\TokenQuery;
 
@@ -34,7 +34,7 @@ class TokenQueryTest extends AbstractTestCase
             'recipient' => "380500000001",
             'token' => "000001",
         ]);
-        ValidationException::saveOrThrow($token);
+        ModelException::saveOrThrow($token);
         Carbon::setTestNow();
     }
 

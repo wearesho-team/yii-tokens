@@ -3,6 +3,7 @@
 
 namespace Wearesho\Yii\Models;
 
+use Wearesho\Yii\Traits\TokenText;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -30,6 +31,8 @@ use Wearesho\Yii\Queries\TokenQuery;
  */
 abstract class Token extends ActiveRecord implements TokenRecordInterface
 {
+    use TokenText;
+
     /**
      * @return string
      */

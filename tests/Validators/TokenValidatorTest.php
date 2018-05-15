@@ -4,7 +4,9 @@ namespace Wearesho\Yii\Tests\Validators;
 
 use Carbon\CarbonInterval;
 
-use Wearesho\Yii\Exceptions\ValidationException;
+use Wearesho\Delivery;
+
+use Horat1us\Yii\Exceptions\ModelException;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
 
@@ -34,7 +36,8 @@ class TokenValidatorTest extends AbstractTestCase
         $this->repository = new TokenRepository(
             new TokenRecordMock(),
             $config = new TokenRepositoryConfigMock,
-            new TokenGeneratorMock
+            new TokenGeneratorMock,
+            new Delivery\ServiceMock()
         );
         $config->setExpirePeriod(CarbonInterval::years(5));
 
@@ -52,7 +55,7 @@ class TokenValidatorTest extends AbstractTestCase
             'recipient' => "380500000001",
             'token' => "000001",
         ]);
-        ValidationException::saveOrThrow($token);
+        ModelException::saveOrThrow($token);
     }
 
     public function testInvalidRecipient()

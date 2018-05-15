@@ -25,13 +25,10 @@ interface TokenRepositoryInterface
      * Will increase sending counter
      *
      * @param TokenableEntityInterface $entity
-     * @param TokenSendServiceInterface $sender
      *
      * @throws DeliveryLimitReachedException
-     *
-     * @return bool
      */
-    public function send(TokenableEntityInterface $entity, TokenSendServiceInterface $sender): bool;
+    public function send(TokenableEntityInterface $entity);
 
     /**
      * Pulling active token to process it (for example, sending sms)
