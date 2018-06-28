@@ -33,6 +33,13 @@ class TokenGeneratorTest extends TestCase
         );
     }
 
+    public function testIntegerToken(): void
+    {
+        $token = $this->generator->getIntegerToken();
+        $this->assertGreaterThanOrEqual(100000, $token);
+        $this->assertLessThanOrEqual(999999, $token);
+    }
+
     public function testDefaultEnvironmentToken(): void
     {
         $defaultEnvironmentToken = 123456;
