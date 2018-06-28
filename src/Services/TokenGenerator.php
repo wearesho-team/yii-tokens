@@ -32,14 +32,19 @@ class TokenGenerator implements TokenGeneratorInterface
         }, range(1, $this->length)));
     }
 
+    public function getIntegerToken(): int
+    {
+        return mt_rand(1 * pow(10, $this->length - 1), str_repeat(9, $this->length));
+    }
+
     protected function getDefaultEnvironmentToken(): ?string
     {
         $token = getenv('TOKEN_GENERATOR_DEFAULT');
 
-        if (!is_string($token) || mb_strlen($token) !== $this->length) {
+        if (!is_string($token) || mb_strlen($token) < $this->length) {
             return null;
         }
 
-        return $token;
+        return mb_substr($token, 0, $this->length);
     }
 }
