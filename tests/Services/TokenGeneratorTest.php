@@ -40,6 +40,23 @@ class TokenGeneratorTest extends TestCase
         $this->assertLessThanOrEqual(999999, $token);
     }
 
+    public function testDefaultIntegerToken(): void
+    {
+        $token = 111111;
+        putenv("TOKEN_GENERATOR_DEFAULT={$token}");
+        $this->assertEquals($token, $this->generator->getIntegerToken());
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Environment token aaaaaa is not numeric
+     */
+    public function testIntegerTokenFail(): void
+    {
+        putenv('TOKEN_GENERATOR_DEFAULT=aaaaaa');
+        $this->generator->getIntegerToken();
+    }
+
     public function testDefaultEnvironmentToken(): void
     {
         $defaultEnvironmentToken = 123456;
