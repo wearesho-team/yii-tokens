@@ -35,7 +35,7 @@ class TokenGenerator implements TokenGeneratorInterface
     public function getIntegerToken(): int
     {
         $environmentToken = $this->getDefaultEnvironmentToken();
-        if (!empty($environmentToken)) {
+        if (!is_null($environmentToken)) {
             if (!is_numeric($environmentToken)) {
                 throw new \BadMethodCallException("Environment token {$environmentToken} is not numeric");
             }
