@@ -84,6 +84,7 @@ class TokenValidatorTest extends AbstractTestCase
         $this->assertFalse(
             $this->model->hasErrors('recipient')
         );
+        $this->assertEquals('Token is invalid.', $this->model->errors['token'][0]);
     }
 
     public function testValid()
@@ -93,5 +94,15 @@ class TokenValidatorTest extends AbstractTestCase
         $this->model->validate();
 
         $this->assertFalse($this->model->hasErrors());
+    }
+
+    public function testCustomMessage(): void
+    {
+        $this->model->errorMessage = 'invalid token';
+        $this->model->recipient = "380500000001";
+        $this->model->token = "111111";
+        $this->model->validate();
+
+        $this->assertEquals('invalid token', $this->model->errors['token'][0]);
     }
 }

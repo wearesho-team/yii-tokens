@@ -21,6 +21,8 @@ class TokenCheckModelMock extends Model
     /** @var  string */
     public $recipient;
 
+    public $errorMessage;
+
     /**
      * @return array
      */
@@ -31,6 +33,7 @@ class TokenCheckModelMock extends Model
             [['token', 'recipient'], 'string',],
             ['token', TokenValidator::class,
                 'recipientAttribute' => 'recipient',
+                'message' => $this->errorMessage,
             ],
         ];
     }

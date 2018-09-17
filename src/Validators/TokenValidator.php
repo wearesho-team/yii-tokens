@@ -42,7 +42,7 @@ class TokenValidator extends Validator
         parent::__construct($config);
 
         $this->repository = $repository;
-        $this->message = \Yii::t('yii', '{attribute} is invalid.');
+        $this->message = $this->message ?: \Yii::t('yii', '{attribute} is invalid.');
         $this->limitReachedMessage = \Yii::t('yii', 'Limit of messages is reached');
     }
 
