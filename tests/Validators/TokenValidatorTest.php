@@ -15,6 +15,7 @@ use Wearesho\Yii\Tests\Mocks\TokenCheckModelMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
+use Wearesho\Yii\Validators\TokenValidator;
 
 /**
  * Class TokenValidatorTest
@@ -104,5 +105,16 @@ class TokenValidatorTest extends AbstractTestCase
         $this->model->validate();
 
         $this->assertEquals('invalid token', $this->model->errors['token'][0]);
+    }
+
+    public function testCustomLimitReached(): void
+    {
+        $validator = new TokenValidator($this->createMock(TokenRepository::class));
+        $this->assertEquals('Limit of messages is reached', $validator->limitReachedMessage);
+        $validator = new TokenValidator($this->createMock(TokenRepository::class), [
+            'limitReachedMessage' => 'custom message',
+        ]);
+
+        $this->assertEquals('custom message', $validator->limitReachedMessage);
     }
 }
