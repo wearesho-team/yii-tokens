@@ -43,7 +43,7 @@ class TokenValidator extends Validator
 
         $this->repository = $repository;
         $this->message = $this->message ?: \Yii::t('yii', '{attribute} is invalid.');
-        $this->limitReachedMessage = \Yii::t('yii', 'Limit of messages is reached');
+        $this->limitReachedMessage = $this->limitReachedMessage ?: \Yii::t('yii', 'Limit of messages is reached');
     }
 
     /**
