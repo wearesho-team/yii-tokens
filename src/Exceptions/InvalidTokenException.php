@@ -1,16 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Exceptions;
 
-/**
- * Class InvalidTokenException
- * @package Wearesho\Yii\Exceptions
- */
 class InvalidTokenException extends TokenException
 {
-    /** @var string  */
-    protected $token;
+    protected string $token;
 
     /**
      * InvalidTokenException constructor.

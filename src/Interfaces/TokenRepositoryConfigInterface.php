@@ -1,28 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Interfaces;
 
 use Carbon\CarbonInterval;
 
-/**
- * Interface TokenRepositorySettingsInterface
- * @package Wearesho\Yii\Interfaces
- */
 interface TokenRepositoryConfigInterface
 {
-    /**
-     * @return CarbonInterval
-     */
     public function getExpirePeriod(): CarbonInterval;
 
-    /**
-     * @return int
-     */
     public function getVerifyLimit(): int;
 
-    /**
-     * @return int
-     */
     public function getDeliveryLimit(): int;
 }

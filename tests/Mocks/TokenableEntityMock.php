@@ -1,24 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Tests\Mocks;
 
 use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 
-/**
- * Class TokenableEntityMock
- * @package Wearesho\Yii\Tests\Mocks
- *
- * @internal
- */
 class TokenableEntityMock implements TokenableEntityInterface
 {
+    protected string $tokenRecipient;
 
-    /** @var  string */
-    protected $tokenRecipient;
-
-    /** @var  array */
-    protected $tokenData;
+    protected array $tokenData;
 
     /**
      * @return array

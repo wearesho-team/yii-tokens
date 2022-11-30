@@ -1,30 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Interfaces;
 
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
 
-/**
- * Interface TokensRepositoryInterface
- * @package Wearesho\Yii\Interfaces
- */
 interface TokenRepositoryInterface
 {
     /**
      * Creating token (for example, when we receive first-stage data)
-     *
-     * @param TokenableEntityInterface $entity
-     * @return TokenInterface
      */
     public function push(TokenableEntityInterface $entity): TokenInterface;
 
     /**
      * Creating and sending token
      * Will increase sending counter
-     *
-     * @param TokenableEntityInterface $entity
      *
      * @throws DeliveryLimitReachedException
      */

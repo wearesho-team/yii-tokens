@@ -1,12 +1,9 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Interfaces;
 
-/**
- * Interface TokenGeneratorInterface
- * @package Wearesho\Yii\Interfaces
- */
 interface TokenGeneratorInterface
 {
     public function getToken(): string;

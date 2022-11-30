@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Tests\Validators;
 
 use Carbon\CarbonInterval;
 
 use Wearesho\Delivery;
 
-use Horat1us\Yii\Exceptions\ModelException;
+use Horat1us\Yii\Validation;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Repositories\TokenRepository;
 
@@ -17,21 +19,13 @@ use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 use Wearesho\Yii\Validators\TokenValidator;
 
-/**
- * Class TokenValidatorTest
- * @package Wearesho\Yii\Tests\Validators
- *
- * @internal
- */
 class TokenValidatorTest extends AbstractTestCase
 {
-    /** @var  TokenRepository */
-    protected $repository;
+    protected TokenRepository $repository;
 
-    /** @var  TokenCheckModelMock */
-    protected $model;
+    protected TokenCheckModelMock $model;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repository = new TokenRepository(
@@ -56,10 +50,10 @@ class TokenValidatorTest extends AbstractTestCase
             'recipient' => "380500000001",
             'token' => "000001",
         ]);
-        ModelException::saveOrThrow($token);
+        Validation\Exception::saveOrThrow($token);
     }
 
-    public function testInvalidRecipient()
+    public function testInvalidRecipient(): void
     {
         $this->model->recipient = "380500000000";
         $this->model->token = "000001";
@@ -73,7 +67,7 @@ class TokenValidatorTest extends AbstractTestCase
         );
     }
 
-    public function testInvalidToken()
+    public function testInvalidToken(): void
     {
         $this->model->recipient = "380500000001";
         $this->model->token = "111111";
@@ -88,7 +82,7 @@ class TokenValidatorTest extends AbstractTestCase
         $this->assertEquals('Token is invalid.', $this->model->errors['token'][0]);
     }
 
-    public function testValid()
+    public function testValid(): void
     {
         $this->model->recipient = "380500000001";
         $this->model->token = "000001";

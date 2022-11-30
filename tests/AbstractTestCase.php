@@ -24,11 +24,14 @@ abstract class AbstractTestCase extends TestCase
      */
     private $migrations = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $dsn = getenv('DB_TYPE') . ":host=" . getenv("DB_HOST") . ";dbname=" . getenv("DB_NAME");
+        $dsn = getenv('DB_TYPE')
+            . ":host=" . getenv("DB_HOST")
+            . ";port=" . getenv("DB_PORT")
+            . ";dbname=" . getenv("DB_NAME");
 
         $config = [
             'id' => 'yii-register-confirmation-test',
@@ -64,7 +67,7 @@ abstract class AbstractTestCase extends TestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

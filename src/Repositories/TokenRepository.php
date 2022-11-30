@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Repositories;
 
@@ -7,7 +8,6 @@ use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
 
-use Horat1us\Yii\Exceptions\ModelException;
 use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 use Wearesho\Yii\Interfaces\TokenInterface;
@@ -15,25 +15,18 @@ use Wearesho\Yii\Interfaces\TokenRecordInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
+use Horat1us\Yii\Validation;
 use Wearesho\Delivery;
 
-/**
- * Class TokensRepository
- * @package Wearesho\Yii\Repositories
- */
 class TokenRepository implements TokenRepositoryInterface
 {
-    /** @var  TokenRecordInterface */
-    protected $model;
+    protected TokenRecordInterface $model;
 
-    /** @var  TokenRepositoryConfigInterface */
-    protected $config;
+    protected TokenRepositoryConfigInterface $config;
 
-    /** @var TokenGeneratorInterface */
-    protected $generator;
+    protected TokenGeneratorInterface $generator;
 
-    /** @var Delivery\ServiceInterface */
-    protected $deliveryService;
+    protected Delivery\ServiceInterface $deliveryService;
 
     /**
      * TokensRepository constructor.
@@ -43,10 +36,10 @@ class TokenRepository implements TokenRepositoryInterface
      * @param Delivery\ServiceInterface $service
      */
     public function __construct(
-        TokenRecordInterface $model,
+        TokenRecordInterface           $model,
         TokenRepositoryConfigInterface $config,
-        TokenGeneratorInterface $generator,
-        Delivery\ServiceInterface $service
+        TokenGeneratorInterface        $generator,
+        Delivery\ServiceInterface      $service
     ) {
         $this->model = $model;
         $this->generator = $generator;
@@ -60,7 +53,7 @@ class TokenRepository implements TokenRepositoryInterface
      *
      * @param TokenableEntityInterface $entity
      * @return TokenInterface|TokenRecordInterface
-     * @throws ModelException
+     * @throws Validation\Failure
      */
     public function push(TokenableEntityInterface $entity): TokenInterface
     {
@@ -75,7 +68,7 @@ class TokenRepository implements TokenRepositoryInterface
         }
 
         $record->setData($entity->getTokenData());
-        ModelException::saveOrThrow($record);
+        Validation\Exception::saveOrThrow($record);
 
         return $record;
     }
@@ -84,14 +77,14 @@ class TokenRepository implements TokenRepositoryInterface
      * Creating and sending token
      * Internal should use push() method
      *
-     * @todo: preventing two write operations (update+update, insert+update)
-     *
      * @param TokenableEntityInterface $entity
      * @throws DeliveryLimitReachedException
      * @throws Delivery\Exception
-     * @throws ModelException
+     * @throws Validation\Failure
+     * @todo: preventing two write operations (update+update, insert+update)
+     *
      */
-    public function send(TokenableEntityInterface $entity)
+    public function send(TokenableEntityInterface $entity): void
     {
         $token = $this->push($entity);
         if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
@@ -105,18 +98,16 @@ class TokenRepository implements TokenRepositoryInterface
 
         if ($token instanceof TokenRecordInterface) {
             $token->increaseDeliveryCount();
-            ModelException::saveOrThrow($token);
+            Validation\Exception::saveOrThrow($token);
         }
     }
 
     /**
      * Pulling active token to process it (for example, sending sms)
-     *
-     * @param string $tokenRecipient
-     * @return null|TokenRecordInterface
      */
-    public function pull(string $tokenRecipient)
+    public function pull(string $tokenRecipient): ?TokenRecordInterface
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->model->find()
             ->notExpired($this->config->getExpirePeriod())
             ->whereRecipient($tokenRecipient)
@@ -128,13 +119,11 @@ class TokenRepository implements TokenRepositoryInterface
      * Or throw one of exceptions
      * Should delete token from storage if token valid to prevent double validation for single token
      *
-     * @param string $tokenRecipient
-     * @param string $token
      * @return TokenInterface
      * @throws DeliveryLimitReachedException
      * @throws InvalidRecipientException
      * @throws InvalidTokenException
-     * @throws ModelException
+     * @throws Validation\Failure
      */
     public function verify(string $tokenRecipient, string $token): TokenInterface
     {
@@ -146,7 +135,7 @@ class TokenRepository implements TokenRepositoryInterface
 
         $record->increaseVerifyCount();
 
-        ModelException::saveOrThrow($record);
+        Validation\Exception::saveOrThrow($record);
 
         if ($this->config->getVerifyLimit() < $record->getVerifyCount()) {
             throw new DeliveryLimitReachedException(

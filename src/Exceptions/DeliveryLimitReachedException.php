@@ -1,30 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Exceptions;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
-/**
- * Class DeliveryLimitReachedException
- * @package Wearesho\Yii\Exceptions
- */
 class DeliveryLimitReachedException extends TokenException
 {
-    /** @var  CarbonInterval */
-    protected $timeout;
+    protected CarbonInterval $timeout;
 
-    /** @var  int */
-    protected $attempts;
+    protected int $attempts;
 
-    /**
-     * DeliveryLimitReachedException constructor.
-     * @param int $attempts
-     * @param CarbonInterval $timeout
-     * @param int $code
-     * @param \Throwable|null $previous
-     */
     public function __construct(int $attempts, CarbonInterval $timeout, $code = 0, \Throwable $previous = null)
     {
         $message = "Delivery limit of {$attempts} reached. Try after "
@@ -35,17 +23,11 @@ class DeliveryLimitReachedException extends TokenException
         $this->timeout = $timeout;
     }
 
-    /**
-     * @return int
-     */
     public function getAttempts(): int
     {
         return $this->attempts;
     }
 
-    /**
-     * @return CarbonInterval
-     */
     public function getTimeout(): CarbonInterval
     {
         return $this->timeout;

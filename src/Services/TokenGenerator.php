@@ -1,17 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Services;
 
 use Wearesho\Yii\Interfaces\TokenGeneratorInterface;
 
-/**
- * Class TokenGenerator
- * @package Wearesho\Yii\Services
- */
 class TokenGenerator implements TokenGeneratorInterface
 {
-    /** @var int */
-    protected $length;
+    protected int $length;
 
     public function __construct(int $length = 6)
     {
@@ -30,20 +27,6 @@ class TokenGenerator implements TokenGeneratorInterface
         return implode('', array_map(function () use (&$numbers) {
             return array_rand($numbers);
         }, range(1, $this->length)));
-    }
-
-    public function getIntegerToken(): int
-    {
-        $environmentToken = $this->getDefaultEnvironmentToken();
-        if (!is_null($environmentToken)) {
-            if (!is_numeric($environmentToken)) {
-                throw new \BadMethodCallException("Environment token {$environmentToken} is not numeric");
-            }
-
-            return (int)$environmentToken;
-        }
-
-        return mt_rand(1 * pow(10, $this->length - 1), str_repeat(9, $this->length));
     }
 
     protected function getDefaultEnvironmentToken(): ?string

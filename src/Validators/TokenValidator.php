@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Validators;
 
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
@@ -8,10 +10,6 @@ use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 use yii\base\Model;
 use yii\validators\Validator;
 
-/**
- * Class TokenValidator
- * @package Wearesho\Yii\Validators
- */
 class TokenValidator extends Validator
 {
     /** @var  string */
@@ -26,17 +24,11 @@ class TokenValidator extends Validator
     /** @var string */
     public $message;
 
-    /** @var   */
+    /** @var  string */
     public $limitReachedMessage;
 
-    /** @var TokenRepositoryInterface */
-    protected $repository;
+    protected TokenRepositoryInterface $repository;
 
-    /**
-     * TokenValidator constructor.
-     * @param array $config
-     * @param TokenRepositoryInterface $repository
-     */
     public function __construct(TokenRepositoryInterface $repository, array $config = [])
     {
         parent::__construct($config);

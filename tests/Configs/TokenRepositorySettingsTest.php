@@ -1,31 +1,22 @@
 <?php
 
-namespace Wearesho\Yii\Tests\Configs;
+declare(strict_types=1);
 
-use Carbon\CarbonInterval;
+namespace Wearesho\Yii\Tests\Configs;
 
 use PHPUnit\Framework\TestCase;
 
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-
 use Wearesho\Yii\Configs\TokenRepositoryConfig;
 
-/**
- * Class TokenRepositorySettingsTest
- * @package Wearesho\Yii\Tests\Configs
- *
- * @internal
- */
 class TokenRepositorySettingsTest extends TestCase
 {
-    /** @var TokenRepositoryConfig */
-    protected $config;
+    protected TokenRepositoryConfig $config;
 
     /**
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\di\NotInstantiableException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->config = \Yii::$container->get(TokenRepositoryConfig::class);

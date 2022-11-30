@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Tests\Entities;
 
 use Wearesho\Yii\Entities\TokenableEntity;
@@ -7,15 +9,11 @@ use Wearesho\Yii\Tests\AbstractTestCase;
 use Yii;
 
 /**
- * Class TokenableEntityTest
- * @package Wearesho\Yii\Tests\Entities
- *
- * @internal
  * @since 1.2.2
  */
 class TokenableEntityTest extends AbstractTestCase
 {
-    public function testRecipient()
+    public function testRecipient(): void
     {
         $recipient = Yii::$app->security->generateRandomString();
         $entity = new TokenableEntity($recipient);
