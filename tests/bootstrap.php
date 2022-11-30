@@ -14,6 +14,5 @@ $repository = Dotenv\Repository\RepositoryBuilder::createWithNoAdapters()
     ->immutable()
     ->make();
 $dotenv = Dotenv\Dotenv::create($repository, dirname(__DIR__));
-$dotenv->load();
 $dotenv->safeLoad();
 $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS', 'DB_TYPE', 'DB_PORT',]);
