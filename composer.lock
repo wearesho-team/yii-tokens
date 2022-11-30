@@ -2393,6 +2393,9 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/translation/tree/3.4"
+            },
             "time": "2018-04-30T01:22:56+00:00"
         },
         {

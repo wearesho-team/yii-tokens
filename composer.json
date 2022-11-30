@@ -1,5 +1,6 @@
 {
   "name": "wearesho-team/yii-tokens",
+  "description": "Yii2 Tokens Library (internal, legacy)",
   "type": "proprietary",
   "keywords": [
     "wearesho",
