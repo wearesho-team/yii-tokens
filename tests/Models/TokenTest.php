@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Tests\Models;
 
 use Carbon\Carbon;
@@ -22,13 +24,13 @@ class TokenTest extends AbstractTestCase
     /** @var  Token */
     protected $model;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->model = new TokenRecordMock();
     }
 
-    public function testDefaultTimestamp()
+    public function testDefaultTimestamp(): void
     {
         Carbon::setTestNow($now = Carbon::now());
         $this->model->trigger(ActiveRecord::EVENT_BEFORE_INSERT);
@@ -40,27 +42,27 @@ class TokenTest extends AbstractTestCase
         Carbon::setTestNow();
     }
 
-    public function testRecipient()
+    public function testRecipient(): void
     {
         $recipient = mt_rand();
-        $this->model->setRecipient($recipient);
+        $this->model->setRecipient((string)$recipient);
         $this->assertEquals(
             $recipient,
             $this->model->getRecipient()
         );
     }
 
-    public function testToken()
+    public function testToken(): void
     {
         $token = mt_rand();
-        $this->model->setToken($token);
+        $this->model->setToken((string)$token);
         $this->assertEquals(
             $token,
             $this->model->getToken()
         );
     }
 
-    public function testData()
+    public function testData(): void
     {
         $data = [
             mt_rand() => mt_rand(),
@@ -72,7 +74,7 @@ class TokenTest extends AbstractTestCase
         );
     }
 
-    public function testDeliveryCount()
+    public function testDeliveryCount(): void
     {
         $this->assertEquals(
             0,
@@ -86,7 +88,7 @@ class TokenTest extends AbstractTestCase
         );
     }
 
-    public function testVerifyCount()
+    public function testVerifyCount(): void
     {
         $this->assertEquals(
             0,
@@ -100,7 +102,7 @@ class TokenTest extends AbstractTestCase
         );
     }
 
-    public function testFind()
+    public function testFind(): void
     {
         $this->assertInstanceOf(
             TokenQuery::class,
@@ -108,7 +110,7 @@ class TokenTest extends AbstractTestCase
         );
     }
 
-    public function testValidation()
+    public function testValidation(): void
     {
         $this->assertFalse(
             $this->model->validate()
@@ -120,15 +122,15 @@ class TokenTest extends AbstractTestCase
             $this->model->hasErrors('recipient')
         );
 
-        $this->model->setRecipient(mt_rand());
-        $this->model->setToken(mt_rand());
+        $this->model->setRecipient((string)mt_rand());
+        $this->model->setToken((string)mt_rand());
         $this->assertTrue(
             $this->model->validate(),
             "Only token and recipient should by required attributes"
         );
     }
 
-    public function testToStringConversion()
+    public function testToStringConversion(): void
     {
         $token = 'test';
 

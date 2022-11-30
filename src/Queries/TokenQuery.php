@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Wearesho\Yii\Queries;
 
 use Carbon\Carbon;
@@ -12,17 +11,12 @@ use Wearesho\Yii\Models\Token;
 use yii\db\ActiveQuery;
 
 /**
- * Class TokenQuery
- * @package Wearesho\Yii\Models
  * @see Token
  */
 class TokenQuery extends ActiveQuery implements TokenQueryInterface
 {
     /**
      * RegistrationTokenQuery constructor.
-     * @param string $modelClass
-     * @param array $config
-     *
      * @see Token::getType()
      */
     public function __construct($modelClass, array $config = [])
@@ -31,10 +25,6 @@ class TokenQuery extends ActiveQuery implements TokenQueryInterface
         $this->where(['=', 'type', call_user_func([$modelClass, 'getType'])]);
     }
 
-    /**
-     * @param CarbonInterval $expirePeriod
-     * @return TokenQueryInterface
-     */
     public function notExpired(CarbonInterval $expirePeriod): TokenQueryInterface
     {
         return $this->andWhere(['>=',
@@ -43,10 +33,6 @@ class TokenQuery extends ActiveQuery implements TokenQueryInterface
         ]);
     }
 
-    /**
-     * @param string $recipient
-     * @return TokenQueryInterface
-     */
     public function whereRecipient(string $recipient): TokenQueryInterface
     {
         return $this->andWhere(['=', 'recipient', $recipient]);

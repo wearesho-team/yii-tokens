@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Tests\Mocks;
 
@@ -7,21 +8,13 @@ use Wearesho\Yii\Validators\TokenValidator;
 
 use yii\base\Model;
 
-/**
- * Class TokenCheckModelMock
- * @package Wearesho\Yii\Tests\Mocks
- *
- * @internal
- */
 class TokenCheckModelMock extends Model
 {
-    /** @var  string */
-    public $token;
+    public ?string $token = null;
 
-    /** @var  string */
-    public $recipient;
+    public ?string $recipient = null;
 
-    public $errorMessage;
+    public ?string $errorMessage = null;
 
     /**
      * @return array

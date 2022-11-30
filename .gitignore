@@ -2,3 +2,4 @@
 /tests/database.sqlite
 /vendor/
 .env
+.phpunit.result.cache

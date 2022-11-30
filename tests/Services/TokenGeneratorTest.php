@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Tests\Services;
 
 use PHPUnit\Framework\TestCase;
@@ -7,9 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Wearesho\Yii\Services\TokenGenerator;
 
 /**
- * Class TokenGeneratorTest
- * @package Wearesho\Yii\Tests\Services
- *
  * @internal
  */
 class TokenGeneratorTest extends TestCase
@@ -31,30 +30,6 @@ class TokenGeneratorTest extends TestCase
             mb_strlen($token),
             "getToken should return token with length passed to constructor"
         );
-    }
-
-    public function testIntegerToken(): void
-    {
-        $token = $this->generator->getIntegerToken();
-        $this->assertGreaterThanOrEqual(100000, $token);
-        $this->assertLessThanOrEqual(999999, $token);
-    }
-
-    public function testDefaultIntegerToken(): void
-    {
-        $token = 111111;
-        putenv("TOKEN_GENERATOR_DEFAULT={$token}");
-        $this->assertEquals($token, $this->generator->getIntegerToken());
-    }
-
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Environment token aaaaaa is not numeric
-     */
-    public function testIntegerTokenFail(): void
-    {
-        putenv('TOKEN_GENERATOR_DEFAULT=aaaaaa');
-        $this->generator->getIntegerToken();
     }
 
     public function testDefaultEnvironmentToken(): void

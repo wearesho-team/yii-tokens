@@ -5,18 +5,13 @@ namespace Wearesho\Yii\Entities;
 use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 
 /**
- * Class TokenableEntity
- * @package Wearesho\Yii\Entities
- *
  * @since 1.2.2
  */
 class TokenableEntity implements TokenableEntityInterface
 {
-    /** @var string */
-    protected $recipient;
+    protected string $recipient;
 
-    /** @var array */
-    protected $data;
+    protected array $data;
 
     public function __construct(string $recipient, array $data = [])
     {

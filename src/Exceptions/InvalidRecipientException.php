@@ -1,23 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Exceptions;
 
-/**
- * Class InvalidRecipientException
- * @package Wearesho\Yii\Exceptions
- */
 class InvalidRecipientException extends TokenException
 {
-    /** @var string */
-    protected $recipient;
+    protected string $recipient;
 
-    /**
-     * InvalidRecipientException constructor.
-     * @param string $tokenRecipient
-     * @param int $code
-     * @param \Throwable|null $previous
-     */
     public function __construct(string $tokenRecipient, $code = 0, \Throwable $previous = null)
     {
         $message = "Token for {$tokenRecipient} did not created yet.";
@@ -26,9 +16,6 @@ class InvalidRecipientException extends TokenException
         $this->recipient = $tokenRecipient;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipient(): string
     {
         return $this->recipient;

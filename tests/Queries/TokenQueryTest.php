@@ -1,29 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wearesho\Yii\Tests\Queries;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
-use Horat1us\Yii\Exceptions\ModelException;
+use Horat1us\Yii\Validation;
 use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Queries\TokenQuery;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 
-/**
- * Class RegistrationTokenQueryTest
- * @package Wearesho\Yii\Tests\Queries
- *
- * @internal
- */
 class TokenQueryTest extends AbstractTestCase
 {
-    /** @var  TokenQuery */
-    protected $query;
+    protected TokenQuery $query;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->query = new TokenQuery(TokenRecordMock::class);
@@ -34,11 +29,11 @@ class TokenQueryTest extends AbstractTestCase
             'recipient' => "380500000001",
             'token' => "000001",
         ]);
-        ModelException::saveOrThrow($token);
+        Validation\Exception::saveOrThrow($token);
         Carbon::setTestNow();
     }
 
-    public function testModelClass()
+    public function testModelClass(): void
     {
         $this->assertEquals(
             TokenRecordMock::class,
@@ -47,10 +42,10 @@ class TokenQueryTest extends AbstractTestCase
         );
     }
 
-    public function testWhereRecipient()
+    public function testWhereRecipient(): void
     {
         $tokenInstance = $this->query
-            ->whereRecipient($firstUserRecipient = 380500000001)
+            ->whereRecipient($firstUserRecipient = '380500000001')
             ->andWhere(['=', 'id', $fieldUserId = 1])
             ->one();
 
@@ -61,7 +56,7 @@ class TokenQueryTest extends AbstractTestCase
         );
 
         $tokenInstance = $this->query
-            ->whereRecipient($invalidRecipient = 380500000000)
+            ->whereRecipient($invalidRecipient = '380500000000')
             ->andWhere(['=', 'id', 1])
             ->one();
 
@@ -70,7 +65,7 @@ class TokenQueryTest extends AbstractTestCase
         );
     }
 
-    public function testNotExpired()
+    public function testNotExpired(): void
     {
         // Setting now to hour bigger than first token created_at
         Carbon::setTestNow(Carbon::create(2014, 1, 1, 2));

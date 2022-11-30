@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Wearesho\Yii\Tests\Repositories;
 
@@ -22,24 +23,15 @@ use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
 use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 
-/**
- * Class TokenRepositoryTest
- * @package Wearesho\Yii\Tests\Repositories
- *
- * @internal
- */
 class TokenRepositoryTest extends AbstractTestCase
 {
-    /** @var  TokenRepository */
-    protected $repository;
+    protected TokenRepository $repository;
 
-    /** @var  TokenRepositoryConfigInterface */
-    protected $settings;
+    protected TokenRepositoryConfigInterface $settings;
 
-    /** @var  TokenGeneratorMock */
-    protected $generator;
+    protected TokenGeneratorMock $generator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -55,13 +47,13 @@ class TokenRepositoryTest extends AbstractTestCase
         $this->settings->setVerifyLimit(3);
     }
 
-    public function testPushNewRecipient()
+    public function testPushNewRecipient(): void
     {
         $entity = new TokenableEntityMock();
         $entity->setTokenData($tokenData = [
             mt_rand() => mt_rand(),
         ]);
-        $entity->setTokenRecipient($recipient = mt_rand());
+        $entity->setTokenRecipient((string)$recipient = mt_rand());
         $this->generator->setExceptedToken($expectedToken = "123123");
 
         $token = $this->repository->push($entity);
@@ -79,13 +71,13 @@ class TokenRepositoryTest extends AbstractTestCase
         );
     }
 
-    public function testPushExistentRecipient()
+    public function testPushExistentRecipient(): void
     {
         $entity = new TokenableEntityMock();
         $entity->setTokenData([
             mt_rand() => mt_rand(),
         ]);
-        $entity->setTokenRecipient(mt_rand());
+        $entity->setTokenRecipient((string)mt_rand());
         $this->generator->setExceptedToken("567890");
 
         $firstToken = $this->repository->push($entity);
@@ -115,17 +107,17 @@ class TokenRepositoryTest extends AbstractTestCase
         );
     }
 
-    public function testPullNothing()
+    public function testPullNothing(): void
     {
         $this->assertNull(
-            $this->repository->pull(mt_rand())
+            $this->repository->pull((string)mt_rand())
         );
     }
 
-    public function testPulling()
+    public function testPulling(): void
     {
         $entity = new TokenableEntityMock();
-        $entity->setTokenRecipient($tokenRecipient = mt_rand());
+        $entity->setTokenRecipient($tokenRecipient = (string)mt_rand());
         $entity->setTokenData($tokenData = [
             mt_rand() => mt_rand(),
         ]);
@@ -150,20 +142,20 @@ class TokenRepositoryTest extends AbstractTestCase
         );
     }
 
-    public function testVerifyMissingRecipient()
+    public function testVerifyMissingRecipient(): void
     {
         $this->expectException(InvalidRecipientException::class);
         $this->repository->verify(
-            $recipient = mt_rand(),
-            $token = mt_rand()
+            $recipient = (string)mt_rand(),
+            $token = (string)mt_rand()
         );
     }
 
-    public function testVerifyInvalidToken()
+    public function testVerifyInvalidToken(): void
     {
         $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
-        $entity->setTokenRecipient($recipient = mt_rand());
+        $entity->setTokenRecipient($recipient = (string)mt_rand());
 
         $token = $this->repository->push($entity);
 
@@ -171,11 +163,11 @@ class TokenRepositoryTest extends AbstractTestCase
         $this->repository->verify($recipient, "0" . $token->getToken());
     }
 
-    public function testValidVerification()
+    public function testValidVerification(): void
     {
         $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
-        $entity->setTokenRecipient($recipient = mt_rand());
+        $entity->setTokenRecipient($recipient = (string)mt_rand());
 
         $token = $this->repository->push($entity);
         $verifiedToken = $this->repository->verify($recipient, $token->getToken());
@@ -196,19 +188,17 @@ class TokenRepositoryTest extends AbstractTestCase
         );
     }
 
-    public function testSending()
+    public function testSending(): void
     {
         $entity = new TokenableEntityMock();
         $entity->setTokenData([mt_rand()]);
-        $entity->setTokenRecipient(mt_rand());
-
-        $sendService = new Delivery\ServiceMock();
+        $entity->setTokenRecipient((string)mt_rand());
 
         for ($i = 0; $i < $this->settings->getDeliveryLimit(); $i++) {
-            $this->repository->send($entity, $sendService);
+            $this->repository->send($entity);
         }
 
         $this->expectException(DeliveryLimitReachedException::class);
-        $this->repository->send($entity, $sendService);
+        $this->repository->send($entity);
     }
 }
