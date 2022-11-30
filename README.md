@@ -53,7 +53,23 @@ Yii::$container->set(
 );
 
 ```
- 
+
+## Contribution
+## Run Tests
+Run test MySQL database
+```bash
+docker compose up -d
+```
+Run tests
+```bash
+composer lint
+composer test
+```
+Down test MySQL database
+```bash
+docker compose down
+```
+
 ### TODO
 1. Documentation
 2. Tests for exceptions
