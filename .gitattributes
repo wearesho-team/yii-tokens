@@ -7,3 +7,4 @@
 /docker-compose.yml export-ignore
 /CHANGELOG.md export-ignore
 /.env.example export-ignore
+/composer.lock export-ignore
