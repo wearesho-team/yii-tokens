@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Wearesho\Yii\Interfaces;
 
-interface TokenableEntityInterface
+use Wearesho\Delivery;
+
+interface TokenableEntityInterface extends Delivery\MessageInterface
 {
-    public function getTokenRecipient(): string;
+    public function getTokenType(): string;
 
     public function getTokenData(): array;
 }

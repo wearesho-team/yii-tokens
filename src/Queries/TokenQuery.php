@@ -15,15 +15,6 @@ use yii\db\ActiveQuery;
  */
 class TokenQuery extends ActiveQuery implements TokenQueryInterface
 {
-    /**
-     * RegistrationTokenQuery constructor.
-     * @see Token::getType()
-     */
-    public function __construct($modelClass, array $config = [])
-    {
-        parent::__construct($modelClass, $config);
-        $this->where(['=', 'type', call_user_func([$modelClass, 'getType'])]);
-    }
 
     public function notExpired(CarbonInterval $expirePeriod): TokenQueryInterface
     {

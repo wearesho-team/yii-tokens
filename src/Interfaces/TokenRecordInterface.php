@@ -8,7 +8,7 @@ use yii\db\ActiveRecordInterface;
 
 interface TokenRecordInterface extends TokenInterface, ActiveRecordInterface
 {
-    public static function getType(): string;
+    public function getType(): string;
 
     public function setToken(string $token): TokenRecordInterface;
 

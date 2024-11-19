@@ -17,34 +17,15 @@ use Wearesho\Yii\Interfaces\TokenRepositoryConfigInterface;
 
 use Horat1us\Yii\Validation;
 use Wearesho\Delivery;
+use Wearesho\Yii\Models\Token;
 
 class TokenRepository implements TokenRepositoryInterface
 {
-    protected TokenRecordInterface $model;
-
-    protected TokenRepositoryConfigInterface $config;
-
-    protected TokenGeneratorInterface $generator;
-
-    protected Delivery\ServiceInterface $deliveryService;
-
-    /**
-     * TokensRepository constructor.
-     * @param TokenRecordInterface|null $model
-     * @param TokenRepositoryConfigInterface $config
-     * @param TokenGeneratorInterface $generator
-     * @param Delivery\ServiceInterface $service
-     */
     public function __construct(
-        TokenRecordInterface           $model,
-        TokenRepositoryConfigInterface $config,
-        TokenGeneratorInterface        $generator,
-        Delivery\ServiceInterface      $service
+        protected TokenRepositoryConfigInterface $config,
+        protected TokenGeneratorInterface        $generator,
+        protected Delivery\ServiceInterface      $deliveryService
     ) {
-        $this->model = $model;
-        $this->generator = $generator;
-        $this->config = $config;
-        $this->deliveryService = $service;
     }
 
     /**
@@ -57,13 +38,11 @@ class TokenRepository implements TokenRepositoryInterface
      */
     public function push(TokenableEntityInterface $entity): TokenInterface
     {
-        $record = $this->pull($entity->getTokenRecipient());
+        $record = $this->pull($entity);
         if (!$record instanceof TokenRecordInterface) {
-            $class = get_class($this->model);
-            /** @var TokenRecordInterface $record */
-            $record = new $class;
-
-            $record->setRecipient($entity->getTokenRecipient());
+            $record = new Token();
+            $record->type = $entity->getTokenType();
+            $record->setRecipient($entity->getRecipient());
             $record->setToken($this->generator->getToken());
         }
 
@@ -94,7 +73,7 @@ class TokenRepository implements TokenRepositoryInterface
             );
         }
 
-        $this->deliveryService->send($token);
+        $this->deliveryService->send($entity);
 
         if ($token instanceof TokenRecordInterface) {
             $token->increaseDeliveryCount();
@@ -105,12 +84,13 @@ class TokenRepository implements TokenRepositoryInterface
     /**
      * Pulling active token to process it (for example, sending sms)
      */
-    public function pull(string $tokenRecipient): ?TokenRecordInterface
+    public function pull(TokenableEntityInterface $entity): ?TokenRecordInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->model->find()
+        return Token::find()
+            ->andWhere(['=', 'token.type', $entity->getTokenType()])
             ->notExpired($this->config->getExpirePeriod())
-            ->whereRecipient($tokenRecipient)
+            ->whereRecipient($entity->getRecipient())
             ->one();
     }
 
@@ -125,12 +105,12 @@ class TokenRepository implements TokenRepositoryInterface
      * @throws InvalidTokenException
      * @throws Validation\Failure
      */
-    public function verify(string $tokenRecipient, string $token): TokenInterface
+    public function verify(TokenableEntityInterface $entity, string $token): TokenInterface
     {
-        $record = $this->pull($tokenRecipient);
+        $record = $this->pull($entity);
 
         if (!$record instanceof TokenRecordInterface) {
-            throw new InvalidRecipientException($tokenRecipient);
+            throw new InvalidRecipientException($entity->getRecipient());
         }
 
         $record->increaseVerifyCount();

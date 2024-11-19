@@ -16,6 +16,7 @@ use Wearesho\Yii\Queries\TokenQuery;
 /**
  * @property-read int $id
  *
+ * @property string $type
  * @property string $token
  * @property string $recipient
  * @property array $data
@@ -25,7 +26,7 @@ use Wearesho\Yii\Queries\TokenQuery;
  *
  * @property string $created_at
  */
-abstract class Token extends db\ActiveRecord implements TokenRecordInterface
+final class Token extends db\ActiveRecord implements TokenRecordInterface
 {
     use TokenText;
 
@@ -46,31 +47,26 @@ abstract class Token extends db\ActiveRecord implements TokenRecordInterface
                 'class' => CarbonBehavior::class,
                 'updatedAtAttribute' => null,
             ],
-            'type' => [
-                'class' => AttributeBehavior::class,
-                'attributes' => [
-                    db\ActiveRecord::EVENT_INIT => ['type',],
-                    db\ActiveRecord::EVENT_BEFORE_VALIDATE => ['type',],
-                ],
-                /** @see Token::getType() */
-                'value' => [$this, 'getType']
-            ]
         ];
     }
 
     public function rules(): array
     {
         return [
-            [['token', 'recipient',], 'required'],
+            [['token', 'recipient', 'type',], 'required'],
             [['token', 'recipient',], 'safe'],
             [['verify_count', 'delivery_count'], 'integer', 'min' => 0,],
             ['verify_count', 'default', 'value' => 0,],
             ['delivery_count', 'default', 'value' => 0,],
             ['data', 'safe',],
+            ['type', 'string', 'min' => 1,],
         ];
     }
 
-    abstract public static function getType(): string;
+    public function getType(): string
+    {
+        return $this->type;
+    }
 
     public function getRecipient(): string
     {
