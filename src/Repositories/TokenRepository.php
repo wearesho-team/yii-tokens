@@ -132,4 +132,17 @@ class TokenRepository implements TokenRepositoryInterface
 
         return $record;
     }
+
+    public function delete(TokenableEntityInterface $entity): void
+    {
+        $record = $this->pull($entity);
+
+        if (!$record instanceof TokenRecordInterface) {
+            throw new InvalidRecipientException($entity->getRecipient());
+        }
+
+        if ($record instanceof Token) {
+            $record->delete();
+        }
+    }
 }
