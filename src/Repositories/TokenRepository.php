@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wearesho\Yii\Repositories;
 
+use Wearesho\Yii\Entities\TokenableEntity;
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
@@ -73,7 +74,13 @@ class TokenRepository implements TokenRepositoryInterface
             );
         }
 
-        $this->deliveryService->send($entity);
+        $entityWithToken = new TokenableEntity(
+            $entity->getRecipient(),
+            str_replace('{token}', $token->getToken(), $entity->getText()),
+            $entity->getTokenType(),
+            $entity->getTokenData()
+        );
+        $this->deliveryService->send($entityWithToken);
 
         if ($token instanceof TokenRecordInterface) {
             $token->increaseDeliveryCount();
