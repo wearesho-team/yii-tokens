@@ -6,7 +6,7 @@ namespace Wearesho\Yii\Interfaces;
 
 use Wearesho\Delivery;
 
-interface TokenInterface extends Delivery\MessageInterface
+interface TokenInterface
 {
     /**
      * Token recipients (for example phone or email)

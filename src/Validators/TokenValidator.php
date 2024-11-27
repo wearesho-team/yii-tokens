@@ -5,27 +5,24 @@ declare(strict_types=1);
 namespace Wearesho\Yii\Validators;
 
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
+use Wearesho\Yii\Interfaces\TokenableEntityInterface;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
 
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\validators\Validator;
 
 class TokenValidator extends Validator
 {
-    /** @var  string */
-    public $recipientAttribute;
+    public ?string $recipientAttribute = null;
 
-    /** @var  callable */
-    public $recipient;
+    public TokenableEntityInterface|\Closure|null $recipient = null;
 
-    /** @var  string */
-    public $targetAttribute;
+    public ?string $targetAttribute = null;
 
-    /** @var string */
-    public $message;
+    public $message = null;
 
-    /** @var  string */
-    public $limitReachedMessage;
+    public ?string $limitReachedMessage = null;
 
     protected TokenRepositoryInterface $repository;
 
@@ -47,6 +44,13 @@ class TokenValidator extends Validator
         $recipient = is_callable($this->recipient)
             ? call_user_func($this->recipient, $model, $attribute)
             : $model->{$this->recipientAttribute};
+
+        if (!$recipient instanceof TokenableEntityInterface) {
+            throw new InvalidConfigException(
+                "recipient attribute have to be either TokenableEntityInterface "
+                . "or Closure with return type of TokenableEntityInterface"
+            );
+        }
 
         $token = $model->{$attribute};
 

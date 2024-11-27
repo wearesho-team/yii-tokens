@@ -27,17 +27,17 @@ interface TokenRepositoryInterface
      * Pulling active token to process it (for example, sending sms)
      * Will not increase sending counter
      *
-     * @param string $tokenRecipient
+     * @param TokenableEntityInterface $entity
      * @return TokenInterface|null
      */
-    public function pull(string $tokenRecipient);
+    public function pull(TokenableEntityInterface $entity);
 
     /**
      * Will return token with data to process action if token valid
      * Or throw one of exceptions
      * Should delete token from storage if token valid to prevent double validation for single token
      *
-     * @param string $tokenRecipient
+     * @param TokenableEntityInterface $entity
      * @param string $token
      *
      * @throws InvalidTokenException
@@ -45,5 +45,5 @@ interface TokenRepositoryInterface
      *
      * @return TokenInterface
      */
-    public function verify(string $tokenRecipient, string $token): TokenInterface;
+    public function verify(TokenableEntityInterface $entity, string $token): TokenInterface;
 }

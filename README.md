@@ -9,7 +9,7 @@ Compatible only with MySQL and PostgreSQL
 
 ### Installation
 ```bash
-composer require wearesho-team/yii-tokens:^3.0
+composer require wearesho-team/yii-tokens:^6.0
 ```
 
 ### Migrations

@@ -1,5 +1,12 @@
 # Yii Tokens Changelog
 
+## 5.0.0
+- Remove static method [Token](./src/Models/Token.php)::getType()
+type configuration moved to [Repository](./src/Repositories/TokenRepository.php)
+- Make method [TokenRecordInterface::getToken](./src/Interfaces/TokenRecordInterface.php) non-static.
+- Rewrite [TokenableEntityInterface.php](./src/Interfaces/TokenableEntityInterface.php)
+- All methods of [TokenRepository](./src/Repositories/TokenRepository.php) now 
+
 ## 2.0.0
 - Yii 2.0.14.1 compatibility fixes
 
