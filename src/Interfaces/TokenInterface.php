@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Wearesho\Yii\Interfaces;
 
-use Wearesho\Delivery;
-
 interface TokenInterface
 {
     /**

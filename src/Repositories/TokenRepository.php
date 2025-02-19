@@ -80,9 +80,9 @@ class TokenRepository implements TokenRepositoryInterface
             $entity->getTokenType(),
             $entity->getTokenData()
         );
-        $this->deliveryService->send($entityWithToken);
+        $deliveryResult = $this->deliveryService->send($entityWithToken);
 
-        if ($token instanceof TokenRecordInterface) {
+        if ($token instanceof TokenRecordInterface && $deliveryResult->status()->isSuccess()) {
             $token->increaseDeliveryCount();
             Validation\Exception::saveOrThrow($token);
         }

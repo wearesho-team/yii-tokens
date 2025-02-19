@@ -13,7 +13,8 @@ class TokenableEntity implements TokenableEntityInterface
         protected string $recipient,
         protected string $text,
         protected string $tokenType,
-        protected array $data
+        protected array $data,
+        protected array $deliveryOptions = []
     )
     {
     }
@@ -36,5 +37,10 @@ class TokenableEntity implements TokenableEntityInterface
     public function getTokenType(): string
     {
         return $this->tokenType;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->deliveryOptions;
     }
 }

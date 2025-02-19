@@ -13,7 +13,7 @@
     "horat1us/yii2-carbon-behavior": "^1.2",
     "horat1us/yii2-validation-exception": "^1.1",
     "nesbot/carbon": "^2.24 || ^3",
-    "wearesho-team/message-delivery": "^1.7",
+    "wearesho-team/message-delivery": "^2.1",
     "yiisoft/yii2": "^2.0.47"
   },
   "require-dev": {
