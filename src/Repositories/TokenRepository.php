@@ -20,13 +20,17 @@ use Horat1us\Yii\Validation;
 use Wearesho\Delivery;
 use Wearesho\Yii\Models\Token;
 
-class TokenRepository implements TokenRepositoryInterface
+use yii\base;
+
+class TokenRepository extends base\Component implements TokenRepositoryInterface
 {
     public function __construct(
         protected TokenRepositoryConfigInterface $repositoryConfig,
         protected TokenGeneratorInterface        $generator,
-        protected Delivery\ServiceInterface      $deliveryService
+        protected Delivery\ServiceInterface      $deliveryService,
+        array $config = []
     ) {
+        parent::__construct($config);
     }
 
     /**
