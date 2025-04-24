@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wearesho\Yii\Repositories;
 
 use Wearesho\Yii\Entities\TokenableEntity;
+use Wearesho\Yii\Events\AfterSendEvent;
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
@@ -28,8 +29,9 @@ class TokenRepository extends base\Component implements TokenRepositoryInterface
         protected TokenRepositoryConfigInterface $repositoryConfig,
         protected TokenGeneratorInterface        $generator,
         protected Delivery\ServiceInterface      $deliveryService,
-        array $config = []
-    ) {
+        array                                    $config = []
+    )
+    {
         parent::__construct($config);
     }
 
@@ -86,10 +88,17 @@ class TokenRepository extends base\Component implements TokenRepositoryInterface
         );
         $deliveryResult = $this->deliveryService->send($entityWithToken);
 
-        if ($token instanceof TokenRecordInterface && $deliveryResult->status()->isSuccess()) {
-            $token->increaseDeliveryCount();
-            Validation\Exception::saveOrThrow($token);
+        $event = new AfterSendEvent($token);
+        $this->trigger(AfterSendEvent::NAME, $event);
+
+        if (!$token instanceof TokenRecordInterface
+            || (!$deliveryResult->status()->isSuccess() && !$event->handled)
+        ) {
+            return;
         }
+
+        $token->increaseDeliveryCount();
+        Validation\Exception::saveOrThrow($token);
     }
 
     /**
