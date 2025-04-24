@@ -27,11 +27,10 @@ class TokenRepository extends base\Component implements TokenRepositoryInterface
 {
     public function __construct(
         protected TokenRepositoryConfigInterface $repositoryConfig,
-        protected TokenGeneratorInterface        $generator,
-        protected Delivery\ServiceInterface      $deliveryService,
-        array                                    $config = []
-    )
-    {
+        protected TokenGeneratorInterface $generator,
+        protected Delivery\ServiceInterface $deliveryService,
+        array $config = []
+    ) {
         parent::__construct($config);
     }
 
