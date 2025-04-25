@@ -15,8 +15,7 @@ class TokenableEntity implements TokenableEntityInterface
         protected string $tokenType,
         protected array $data,
         protected array $deliveryOptions = []
-    )
-    {
+    ) {
     }
 
     public function getTokenData(): array

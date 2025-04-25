@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wearesho\Yii\Repositories;
 
 use Wearesho\Yii\Entities\TokenableEntity;
+use Wearesho\Yii\Events\AfterSendEvent;
 use Wearesho\Yii\Exceptions\DeliveryLimitReachedException;
 use Wearesho\Yii\Exceptions\InvalidRecipientException;
 use Wearesho\Yii\Exceptions\InvalidTokenException;
@@ -20,13 +21,17 @@ use Horat1us\Yii\Validation;
 use Wearesho\Delivery;
 use Wearesho\Yii\Models\Token;
 
-class TokenRepository implements TokenRepositoryInterface
+use yii\base;
+
+class TokenRepository extends base\Component implements TokenRepositoryInterface
 {
     public function __construct(
-        protected TokenRepositoryConfigInterface $config,
-        protected TokenGeneratorInterface        $generator,
-        protected Delivery\ServiceInterface      $deliveryService
+        protected TokenRepositoryConfigInterface $repositoryConfig,
+        protected TokenGeneratorInterface $generator,
+        protected Delivery\ServiceInterface $deliveryService,
+        array $config = []
     ) {
+        parent::__construct($config);
     }
 
     /**
@@ -67,10 +72,10 @@ class TokenRepository implements TokenRepositoryInterface
     public function send(TokenableEntityInterface $entity): void
     {
         $token = $this->push($entity);
-        if ($token->getDeliveryCount() >= $this->config->getDeliveryLimit()) {
+        if ($token->getDeliveryCount() >= $this->repositoryConfig->getDeliveryLimit()) {
             throw new DeliveryLimitReachedException(
                 $token->getDeliveryCount(),
-                $this->config->getExpirePeriod()
+                $this->repositoryConfig->getExpirePeriod()
             );
         }
 
@@ -82,10 +87,17 @@ class TokenRepository implements TokenRepositoryInterface
         );
         $deliveryResult = $this->deliveryService->send($entityWithToken);
 
-        if ($token instanceof TokenRecordInterface && $deliveryResult->status()->isSuccess()) {
-            $token->increaseDeliveryCount();
-            Validation\Exception::saveOrThrow($token);
+        $event = new AfterSendEvent($token);
+        $this->trigger(AfterSendEvent::NAME, $event);
+
+        if (!$token instanceof TokenRecordInterface
+            || (!$deliveryResult->status()->isSuccess() && !$event->handled)
+        ) {
+            return;
         }
+
+        $token->increaseDeliveryCount();
+        Validation\Exception::saveOrThrow($token);
     }
 
     /**
@@ -96,7 +108,7 @@ class TokenRepository implements TokenRepositoryInterface
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Token::find()
             ->andWhere(['=', 'token.type', $entity->getTokenType()])
-            ->notExpired($this->config->getExpirePeriod())
+            ->notExpired($this->repositoryConfig->getExpirePeriod())
             ->whereRecipient($entity->getRecipient())
             ->one();
     }
@@ -124,10 +136,10 @@ class TokenRepository implements TokenRepositoryInterface
 
         Validation\Exception::saveOrThrow($record);
 
-        if ($this->config->getVerifyLimit() < $record->getVerifyCount()) {
+        if ($this->repositoryConfig->getVerifyLimit() < $record->getVerifyCount()) {
             throw new DeliveryLimitReachedException(
                 $record->getVerifyCount(),
-                $this->config->getExpirePeriod()
+                $this->repositoryConfig->getExpirePeriod()
             );
         }
 
