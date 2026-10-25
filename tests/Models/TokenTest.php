@@ -10,7 +10,6 @@ use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Queries\TokenQuery;
 use Wearesho\Yii\Tests\AbstractTestCase;
 
-use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use yii\db\ActiveRecord;
 
 /**
@@ -27,7 +26,7 @@ class TokenTest extends AbstractTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->model = new TokenRecordMock();
+        $this->model = new Token();
     }
 
     public function testDefaultTimestamp(): void
@@ -121,12 +120,16 @@ class TokenTest extends AbstractTestCase
         $this->assertTrue(
             $this->model->hasErrors('recipient')
         );
+        $this->assertTrue(
+            $this->model->hasErrors('type')
+        );
 
         $this->model->setRecipient((string)mt_rand());
         $this->model->setToken((string)mt_rand());
+        $this->model->type = 'mock';
         $this->assertTrue(
             $this->model->validate(),
-            "Only token and recipient should by required attributes"
+            "Only token, recipient and type should by required attributes"
         );
     }
 

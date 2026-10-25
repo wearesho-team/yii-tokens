@@ -13,7 +13,7 @@ class DeliveryLimitReachedException extends TokenException
 
     protected int $attempts;
 
-    public function __construct(int $attempts, CarbonInterval $timeout, $code = 0, \Throwable $previous = null)
+    public function __construct(int $attempts, CarbonInterval $timeout, $code = 0, ?\Throwable $previous = null)
     {
         $message = "Delivery limit of {$attempts} reached. Try after "
             . Carbon::now()->add($timeout)->toDateTimeString();

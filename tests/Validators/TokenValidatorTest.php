@@ -10,12 +10,12 @@ use Wearesho\Delivery;
 
 use Horat1us\Yii\Validation;
 use Wearesho\Yii\Interfaces\TokenRepositoryInterface;
+use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Repositories\TokenRepository;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
 use Wearesho\Yii\Tests\Mocks\TokenCheckModelMock;
 use Wearesho\Yii\Tests\Mocks\TokenGeneratorMock;
-use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 use Wearesho\Yii\Tests\Mocks\TokenRepositoryConfigMock;
 use Wearesho\Yii\Validators\TokenValidator;
 
@@ -29,10 +29,9 @@ class TokenValidatorTest extends AbstractTestCase
     {
         parent::setUp();
         $this->repository = new TokenRepository(
-            new TokenRecordMock(),
             $config = new TokenRepositoryConfigMock,
             new TokenGeneratorMock,
-            new Delivery\ServiceMock()
+            new Delivery\StubService()
         );
         $config->setExpirePeriod(CarbonInterval::years(5));
 
@@ -45,10 +44,11 @@ class TokenValidatorTest extends AbstractTestCase
 
         $this->model = new TokenCheckModelMock;
 
-        $token = new TokenRecordMock([
+        $token = new Token([
             'id' => 1,
             'recipient' => "380500000001",
             'token' => "000001",
+            'type' => TokenCheckModelMock::TOKEN_TYPE,
         ]);
         Validation\Exception::saveOrThrow($token);
     }
@@ -103,9 +103,9 @@ class TokenValidatorTest extends AbstractTestCase
 
     public function testCustomLimitReached(): void
     {
-        $validator = new TokenValidator($this->createMock(TokenRepository::class));
+        $validator = new TokenValidator($this->createStub(TokenRepository::class));
         $this->assertEquals('Limit of messages is reached', $validator->limitReachedMessage);
-        $validator = new TokenValidator($this->createMock(TokenRepository::class), [
+        $validator = new TokenValidator($this->createStub(TokenRepository::class), [
             'limitReachedMessage' => 'custom message',
         ]);
 

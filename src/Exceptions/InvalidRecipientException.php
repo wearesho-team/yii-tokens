@@ -8,7 +8,7 @@ class InvalidRecipientException extends TokenException
 {
     protected string $recipient;
 
-    public function __construct(string $tokenRecipient, $code = 0, \Throwable $previous = null)
+    public function __construct(string $tokenRecipient, $code = 0, ?\Throwable $previous = null)
     {
         $message = "Token for {$tokenRecipient} did not created yet.";
         parent::__construct($message, $code, $previous);

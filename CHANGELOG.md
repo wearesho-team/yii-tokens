@@ -1,11 +1,23 @@
 # Yii Tokens Changelog
 
+## 5.2.0
+- Require PHP >= 8.4 (was ^8.1). Tested on PHP 8.4 and PHP 8.5, with MySQL and PostgreSQL.
+- Raise minimum versions to the first releases supporting PHP 8.4/8.5:
+`yiisoft/yii2` ^2.0.54, `nesbot/carbon` ^3.2 || ^2.73,
+`horat1us/yii2-carbon-behavior` ^1.4, `horat1us/yii2-validation-exception` ^1.2.
+- Fix PHP 8.4 deprecation "Implicitly marking parameter $previous as nullable" in the constructors of
+[InvalidTokenException](./src/Exceptions/InvalidTokenException.php),
+[InvalidRecipientException](./src/Exceptions/InvalidRecipientException.php) and
+[DeliveryLimitReachedException](./src/Exceptions/DeliveryLimitReachedException.php).
+
 ## 5.0.0
 - Remove static method [Token](./src/Models/Token.php)::getType()
 type configuration moved to [Repository](./src/Repositories/TokenRepository.php)
 - Make method [TokenRecordInterface::getToken](./src/Interfaces/TokenRecordInterface.php) non-static.
 - Rewrite [TokenableEntityInterface.php](./src/Interfaces/TokenableEntityInterface.php)
-- All methods of [TokenRepository](./src/Repositories/TokenRepository.php) now 
+- All methods of [TokenRepository](./src/Repositories/TokenRepository.php) now take a
+[TokenableEntityInterface](./src/Interfaces/TokenableEntityInterface.php)
+(`pull()` and `verify()` took a recipient string before).
 
 ## 2.0.0
 - Yii 2.0.14.1 compatibility fixes

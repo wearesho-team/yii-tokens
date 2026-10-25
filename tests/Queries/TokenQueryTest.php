@@ -12,7 +12,6 @@ use Wearesho\Yii\Models\Token;
 use Wearesho\Yii\Queries\TokenQuery;
 
 use Wearesho\Yii\Tests\AbstractTestCase;
-use Wearesho\Yii\Tests\Mocks\TokenRecordMock;
 
 class TokenQueryTest extends AbstractTestCase
 {
@@ -21,13 +20,14 @@ class TokenQueryTest extends AbstractTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->query = new TokenQuery(TokenRecordMock::class);
+        $this->query = new TokenQuery(Token::class);
 
         Carbon::setTestNow(Carbon::create(2014, 1, 1, 1));
-        $token = new TokenRecordMock([
+        $token = new Token([
             'id' => 1,
             'recipient' => "380500000001",
             'token' => "000001",
+            'type' => 'mock',
         ]);
         Validation\Exception::saveOrThrow($token);
         Carbon::setTestNow();
@@ -36,7 +36,7 @@ class TokenQueryTest extends AbstractTestCase
     public function testModelClass(): void
     {
         $this->assertEquals(
-            TokenRecordMock::class,
+            Token::class,
             $this->query->modelClass,
             "Query should be equal to passed to constructor class"
         );

@@ -16,7 +16,7 @@ class TokenableEntityTest extends AbstractTestCase
     public function testRecipient(): void
     {
         $recipient = Yii::$app->security->generateRandomString();
-        $entity = new TokenableEntity($recipient);
+        $entity = new TokenableEntity($recipient, 'text', 'mock', []);
         $this->assertEquals($recipient, $entity->getRecipient());
     }
 
@@ -25,7 +25,7 @@ class TokenableEntityTest extends AbstractTestCase
         $data = [
             mt_rand() => mt_rand(),
         ];
-        $entity = new TokenableEntity('recipient', $data);
+        $entity = new TokenableEntity('recipient', 'text', 'mock', $data);
         $this->assertEquals($data, $entity->getTokenData());
     }
 }

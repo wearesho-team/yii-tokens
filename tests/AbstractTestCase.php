@@ -77,6 +77,7 @@ abstract class AbstractTestCase extends TestCase
             $migration->down();
             ob_end_clean();
         }
+        \Yii::$app?->getErrorHandler()->unregister();
         \Yii::$app = null;
     }
 }

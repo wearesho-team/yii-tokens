@@ -14,7 +14,7 @@ class InvalidTokenException extends TokenException
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct(string $token, $code = 0, \Throwable $previous = null)
+    public function __construct(string $token, $code = 0, ?\Throwable $previous = null)
     {
         $message = "Token {$token} is invalid.";
         parent::__construct($message, $code, $previous);
