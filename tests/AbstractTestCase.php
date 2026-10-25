@@ -48,12 +48,17 @@ abstract class AbstractTestCase extends TestCase
 
         \Yii::$app = new Application($config);
         $this->migrations = [];
+        // DirectoryIterator order depends on the filesystem, migrations have to be applied in name order
+        $files = [];
         foreach (new DirectoryIterator(dirname(__DIR__) . "/migrations") as $file) {
-            if (!$file->isFile()) {
-                continue;
+            if ($file->isFile()) {
+                $files[] = $file->getRealPath();
             }
-            include_once $file->getRealPath();
-            $class = str_replace('.php', '', $file);
+        }
+        sort($files);
+        foreach ($files as $file) {
+            include_once $file;
+            $class = basename($file, '.php');
 
             $migration = new $class;
             if (!$migration instanceof Migration) {
