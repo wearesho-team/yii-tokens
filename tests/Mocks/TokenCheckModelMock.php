@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Wearesho\Yii\Tests\Mocks;
 
+use Wearesho\Yii\Entities\TokenableEntity;
 use Wearesho\Yii\Validators\TokenValidator;
 
 use yii\base\Model;
 
 class TokenCheckModelMock extends Model
 {
+    public const TOKEN_TYPE = 'mock';
+
     public ?string $token = null;
 
     public ?string $recipient = null;
@@ -25,7 +28,12 @@ class TokenCheckModelMock extends Model
             [['token', 'recipient',], 'required',],
             [['token', 'recipient'], 'string',],
             ['token', TokenValidator::class,
-                'recipientAttribute' => 'recipient',
+                'recipient' => fn(self $model): TokenableEntity => new TokenableEntity(
+                    (string)$model->recipient,
+                    '{token}',
+                    static::TOKEN_TYPE,
+                    []
+                ),
                 'message' => $this->errorMessage,
             ],
         ];

@@ -1,15 +1,14 @@
 ## Yii2 Tokens
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokes/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/badges/build.png?b=master)](https://scrutinizer-ci.com/g/wearesho-team/yii-tokens/build-status/master)
+[![PHP Composer](https://github.com/wearesho-team/yii-tokens/actions/workflows/php.yml/badge.svg?branch=master)](https://github.com/wearesho-team/yii-tokens/actions/workflows/php.yml)
 
 Verifying some action by sending token (SMS, Email, Telegram etc.)
 Compatible only with MySQL and PostgreSQL  
+Compatibility: tested on PHP 8.4, PHP 8.5  
 [CHANGELOG](./CHANGELOG.md)
 
 ### Installation
 ```bash
-composer require wearesho-team/yii-tokens:^6.0
+composer require wearesho-team/yii-tokens:^5.2
 ```
 
 ### Migrations
@@ -56,7 +55,7 @@ Yii::$container->set(
 
 ## Contribution
 ## Run Tests
-Run test MySQL database
+Run test PostgreSQL database
 ```bash
 docker compose up -d
 ```
@@ -65,7 +64,7 @@ Run tests
 composer lint
 composer test
 ```
-Down test MySQL database
+Down test PostgreSQL database
 ```bash
 docker compose down
 ```
